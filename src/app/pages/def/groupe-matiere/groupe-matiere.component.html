@@ -1,0 +1,42 @@
+<nz-card
+  style="
+    display: flex;
+    flex-direction: column;
+    flex: 1;">
+    <div class="col-lg-12">
+      <div class="d-md-flex">
+        <div class="m-b-10 m-r-15">
+          <nz-input-group [nzPrefix]="prefixTemplate">
+            <input
+              type="text"
+              nz-input
+              nz-tooltip="Search Project"
+              [(ngModel)]="searchInput"
+              (ngModelChange)="search()"
+            />
+          </nz-input-group>
+          <ng-template #prefixTemplate>
+            <i nz-icon nzType="search" class="opacity-05"></i>
+          </ng-template>
+        </div>
+        <!--div class="m-b-10 m-r-20 d-flex align-items-center">
+          <nz-select
+            style="min-width: 220px"
+            class="w-100"
+            nzPlaceHolder="Status"
+          >
+            <nz-option nzLabel="All" nzValue="all"></nz-option>
+            <nz-option nzLabel="Approved" nzValue="approved"></nz-option>
+            <nz-option nzLabel="Pending" nzValue="pending"></nz-option>
+            <nz-option nzLabel="Rejected" nzValue="rejected"></nz-option>
+          </nz-select>
+        </div-->
+      </div>
+    <div class="col-lg-4 text-right">
+      <button nz-button nzType="primary" (click)="create()">
+        <i nz-icon nzType="file-excel" theme="outline"></i>
+        <span>Nouveau</span>
+      </button>
+  </div>
+    </div>
+</nz-card>

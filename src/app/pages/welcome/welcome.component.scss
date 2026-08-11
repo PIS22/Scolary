@@ -72,12 +72,14 @@ nz-header {
 
 nz-content {
   margin: 24px;
+  overflow: hidden;
 }
 
 .inner-content {
   padding: 24px;
   background: #fff;
   height: 100%;
+  overflow-y: auto;overflow-x: hidden;
 }
 
 ul nz-menu nz-menu-item {
