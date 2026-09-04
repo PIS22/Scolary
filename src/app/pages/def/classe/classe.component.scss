@@ -1,0 +1,28 @@
+.section-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  column-gap: 2px;
+}
+.section-header {
+  .search-data {
+    width: 65%;
+  }
+  .button {
+    width: 30%;
+    button {
+      width: 100%;
+    }
+  }
+}
+.content-section {
+  margin-top: 2em;
+  nz-table {
+    width: 100%;
+  }
+}
+.sites-card {
+  width: 100%;
+}

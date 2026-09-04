@@ -1,0 +1,28 @@
+Info complémentaire:
+Nom: DJOSSOU; Prénoms: Sounouvou Peter Gall Ive;
+Sexe: Masculin; Date de naissance: 22/01/21985; Lieu de naissance: Cotonou;
+ Nationalité: Béninoise;
+ Situation matrimoniale: En couple avec 3 enfants à charges;
+ Téléphone: +229 0197541723/ 0145181567; email: ivedjossou@gmail.com;
+
+1- Je suis née en 1986.
+2- En 2006, j'ai décroché mon baccalauréat béninois série D
+3- En 2011, jai soutenu ma licence professionnelle en Informatique de gestion sur le thème "Automatisation des formations du personnel militaire (logiciel desktop
+ développée en C++ avec une base données SQL Server) à l'Institut Universitaire de Technologie, institut sous tutelle de l'université de Parakou au Bénin
+4- Depuis lors, j'ai travaillé comme:
+4.1- Agent vérificateur de l'uniformité des données personnelles (uniformité des noms, prénoms ....) dans le cadre de l'informatisation de la liste électorale béninoise en 2014.
+4.2- Agent chargé de la vérification partielle des doublon dans le cadre de la constitution de la base de l'anip en 2018
+4.3- Agent informaticien à BUCO chargé de la formation des utilisateurs, de l'installation de logiciels et d'équipements informatiques, de la constitution de la bases de données
+dans le cadre de l'installation du logiciel de guichet unique dans les communes de Dassa, Aplahoué, Karimama, Djougou, Gogounou, Bembèréké, Ségbana 2019-2021
+4.4- Responsable des achats à Sagacious Organic Africa à Lomé 2022-2023
+4.5- Responsable magasinier à Sagacious Organic Africa à Lomé 2023-2024
+5En indépendant, Je me suis mis à l'apprentissage du développement web fontend Angular et bakend spring, bases de données PostgreSql, MySql et Oracle et jasper pour les rapports
+
+En connaissance de langues étrangères, je suis très à l'aise en francais et arrive souvent à exprimer mes bésoins en anglais (bonne lecture à part les variances de prononciation mais limité à l'écoute)
+
+
+De façon générale, je me définis comme calme, sociable, perfectionniste, ayant une bonne capacité d'adaption et un bon esprit d'équipe
+
+Produis-moi deux CV professionnels avec deux présentations différentes au format word que je pourrai modifier en locales
+le premier sera orienté un poste développeur full stack laravel (que je suis prêt à apprendre)
+Le deuxième sera un CV plus ou moins général

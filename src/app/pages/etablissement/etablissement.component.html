@@ -1,59 +1,152 @@
-<p>etablissement works!</p>
-<form
-  action="post"
-  (ngSubmit)="saveData()"
-  style="width: 600px; align-self: center; margin: 5px"
->
-  <nz-card>
-    <div style="align-content: center">
-      <h3 style="text-align: center">Informations de l'école</h3>
-    </div>
-    <nz-divider></nz-divider>
-    <nz-form-item>
-      <nz-form-label>Nom</nz-form-label>
-      <nz-form-control>
-        <input type="text" nz-input name="nom" [(ngModel)]="data.nom" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>Adresse</nz-form-label>
-      <nz-form-control>
-        <input type="text" nz-input name="adresse" [(ngModel)]="data.adresse" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>Ville</nz-form-label>
-      <nz-form-control>
-        <input type="text" nz-input name="ville" [(ngModel)]="data.ville" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>Boîte postale</nz-form-label>
-      <nz-form-control>
-        <input type="text" nz-input name="bp" [(ngModel)]="data.bp" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>Téléphone</nz-form-label>
-      <nz-form-control>
-        <input type="text" nz-input name="tel" [(ngModel)]="data.tel" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>email</nz-form-label>
-      <nz-form-control>
-        <input type="email" nz-input name="mail" [(ngModel)]="data.email" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-divider></nz-divider>
+<div class="etablissement-page">
+  <nz-card class="etablissement-card" nzTitle="Informations de l'école">
+    <form nz-form>
+      <div class="form-grid">
+        <nz-form-item>
+          <nz-form-label>Code</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="cod" [(ngModel)]="data.code" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Nom</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="nom" [(ngModel)]="data.nom" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Adresse</nz-form-label>
+          <nz-form-control>
+            <input
+              nz-input name="adresse"
+              [(ngModel)]="data.adresse"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Ville</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="ville" [(ngModel)]="data.ville"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Site web</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="site" [(ngModel)]="data.siteweb" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Email</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="email" name="email" [(ngModel)]="data.email"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Téléphone</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="tel"
+          [(ngModel)]="
+              data.telephone"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label>Pays</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="pays" [(ngModel)]="data.pays" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>devise</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="dev" name="dev" [(ngModel)]="data.devise"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>sigle</nz-form-label>
+          <nz-form-control>
+            <input nz-input name="sigl"
+          [(ngModel)]="
+              data.sigle"
+            />
+          </nz-form-control>
+        </nz-form-item>
+
+      </div>
+
+      <div class="validation-container">
         <button
           nz-button
           nzType="primary"
-          nzSpan="20"
-          nzOffset="2"
-          style="align-self: center"
+          nzSize="large"
+          type="submit"
+          class="validation-button"
+          (click)="submit()"
         >
-          Valider
+          {{label}}
         </button>
+      </div>
+    </form>
   </nz-card>
-</form>
+
+  <!-- =====================================================
+       SITES
+       ===================================================== -->
+
+  <nz-card nzType="inner" nzTitle="Gestion des éablissements rattachés" class="sites-card">
+    <div class="section-header">
+      <div>
+        <input type="text" nz-input [(ngModel)]="searchedData" (ngModelChange)="search()">
+      </div>
+
+      <button nz-button (click)="addingPop()" nzType="primary" *ngIf="data.id">
+        <nz-icon nzType="plus"></nz-icon>
+        Ajouter un site
+      </button>
+    </div>
+
+    <nz-divider></nz-divider>
+
+    <nz-table #siteTable [nzData]="displayed" nzBordered nzSize="middle">
+      <thead>
+        <tr>
+          <th>Nom du site</th>
+          <th>Adresse</th>
+          <th>Ville</th>
+          <th>Téléphone</th>
+          <th nzWidth="150px">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let site of siteTable.data; let ind= index">
+          <td>{{ site.nom }}</td>
+
+          <td>{{ site.adresse }}</td>
+
+          <td>{{ site.ville }}</td>
+
+          <td>{{ site.telephone }}</td>
+
+          <td>
+            <button nz-button nzType="link" (click)="editingPop(site, ind)">
+              <i nz-icon nzType="edit" theme="outline"></i>
+            </button>
+            <button nz-button nzType="link" (click)="enter(site)">
+              <i nz-icon nzType="folder-open" theme="outline"></i>
+            </button>
+            <button nz-button nzType="link" nzDanger>
+              <i nz-icon nzType="delete" theme="outline"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</div>

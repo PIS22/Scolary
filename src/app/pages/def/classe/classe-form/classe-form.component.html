@@ -1,1 +1,65 @@
-<p>classe-form works!</p>
+<div class="main-content">
+  <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="code" nzRequired>Code</nz-form-label>
+      <nz-form-control
+        [nzSpan]="10"
+        [nzOffset]="2"
+        nzErrorTip="Le code de la classe est obligatoire"
+      >
+        <input nz-input formControlName="code" nz-tooltip="Code de la classe" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="libe" nzRequired
+        >Libellé</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Le libellé de la classe est obligatoire"
+      >
+        <input
+          nz-input
+          formControlName="libe"
+          nz-tooltip="Libellé de la classe"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="clniva" nzRequired>Niveau</nz-form-label>
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Veuillez sélectionner la classe"
+      >
+        <nz-select
+          formControlName="niv"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+        >
+          <nz-option
+            *ngFor="let item of niveaux"
+            [nzValue]="item"
+            [nzLabel]="item.libelle"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="cap"> Capacité</nz-form-label>
+      <nz-form-control [nzSpan]="11" [nzOffset]="1">
+        <input type="number" nz-input formControlName="cap" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+          Valider
+        </button>
+        <button nz-button (click)="close(null)">Annuler</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

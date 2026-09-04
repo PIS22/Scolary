@@ -1,0 +1,96 @@
+<div class="main-content">
+  <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+    <nz-form-item>
+      <nz-form-label nzRequire [nzSpan]="2" nzFor="cod"> Code</nz-form-label>
+      <nz-form-control [nzSpan]="11" [nzOffset]="3">
+        <input type="text" placeholder="Code du frais" nz-input formControlName="cod"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequire [nzSpan]="2" nzFor="lib"> Libellé</nz-form-label>
+      <nz-form-control [nzSpan]="19" [nzOffset]="3">
+        <input type="text" nz-input  placeholder="Libellé du frais" formControlName="lib"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="typ" nzRequired
+        >Type de frais</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="1"
+        nzErrorTip="Veuillez sélectionner le type de frais"
+      >
+        <nz-select formControlName="typ">
+          <nz-option
+            *ngFor="let item of types"
+            [nzLabel]="item.libTypeFrais"
+            [nzValue]="item.id"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <div nz-row [nzGutter]="{xs: 8, sm: 16, md: 24, lg: 32}">
+      <div class="Gutter-row" nz-col  nzSpan="12">
+        <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="por" nzRequired
+        >Portée</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="14" [nzOffset]="4"
+        nzErrorTip="Veuillez sélectionner le type de frais"
+      >
+        <nz-select formControlName="por">
+          <nz-option
+            nzLabel="STANDARD"
+            nzValue="STANDARD"
+          ></nz-option>
+          <nz-option
+            nzLabel="SPECIFIQUE"
+            nzValue="SPECIFIQUE"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+      </div>
+      <div class="Gutter-row" nz-col  nzSpan="12" *ngIf="dataForm.value.por!='SPECIFIQUE'">
+
+    <!--nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="cla" nzRequired>Classe</nz-form-label>
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Veuillez sélectionner la classe"
+      >
+        <nz-select
+          formControlName="cla"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+        >
+          <nz-option
+            *ngFor="let item of classes"
+            [nzValue]="item"
+            [nzLabel]="item.libClasse"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item-->
+    <nz-form-item>
+      <nz-form-label [nzSpan]="6" nzFor="mtt"> Montant</nz-form-label>
+      <nz-form-control [nzSpan]="17" nzOffset="1">
+        <input type="number" nz-input formControlName="mtt"  [readonly]=""/>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+</div>
+    <nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+          Valider
+        </button>
+        <button nz-button (click)="close(null)">Annuler</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

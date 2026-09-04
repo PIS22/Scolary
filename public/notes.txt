@@ -1,0 +1,5 @@
+1-Ajouter l'attribut optionnel de type booléen dans la classe TypeFrais
+2-Remettre l'attribut active de type booléen dans la classeAnneeScolaire
+3-Permettre la création d'une liste de FraisClasse (Mettre à disposition une URL qui pour chaque élément d'une liste de FraisClasseRequestDto et
+crée un FraisClassepuis renvoie la liste des FraisClasses créés)
+4-

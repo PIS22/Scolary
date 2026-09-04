@@ -1,0 +1,145 @@
+.etablissement-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.etablissement-card,
+.sites-card {
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+
+.page-title h2,
+.section-header h2 {
+  margin: 0;
+
+  color: #0b1f3a;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.page-title p,
+.section-header p {
+  margin: 6px 0 0;
+
+  color: #7a869a;
+
+  font-size: 14px;
+}
+
+
+/* ===============================
+   FORMULAIRE
+   =============================== */
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 4px 32px;
+}
+
+nz-form-item {
+  margin-bottom: 16px;
+}
+
+nz-form-label {
+  font-weight: 500;
+}
+
+
+/* ===============================
+   BOUTON VALIDATION
+   =============================== */
+
+.validation-container {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 12px;
+  padding-top: 20px;
+
+  border-top: 1px solid #f0f0f0;
+}
+
+.validation-button {
+  min-width: 220px;
+
+  height: 44px;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  border-radius: 6px;
+}
+
+
+/* ===============================
+   SITES
+   =============================== */
+
+.section-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.sites-card nz-table {
+  width: 100%;
+}
+
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 768px) {
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .validation-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+
+
+
+.section-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  column-gap: 2px;
+}
+.section-header {
+  .search-data{
+  width: 65%;
+}
+.button{
+  width: 30%;
+  button{
+    width: 100%;
+  }
+}
+}
+
+.sites-card nz-table {
+  width: 100%;
+}

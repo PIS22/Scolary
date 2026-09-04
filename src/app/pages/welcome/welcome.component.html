@@ -8,7 +8,7 @@
     [nzTrigger]="null"
   >
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
+      <a routerLink="accueil" target="_blank">
         <img src="/scoman.ico" alt="logo" />
         <h1>Ant Design of Angular</h1>
       </a>
@@ -20,7 +20,7 @@
       [nzInlineCollapsed]="isCollapsed"
     >
       <li nz-menu-item nzMatchRouter>
-        <a routerLink="accueil">Accueil</a>
+        <a routerLink="inscription">Inscription</a>
       </li>
       <li
         nz-submenu
@@ -31,13 +31,22 @@
       >
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="manager/fichier/classe">Classe</a>
+            <a routerLink="fichier/matiere">Matière</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="manager/fichier/matiere">Matière</a>
+            <a routerLink="fichier/annee_scolaire">Année scolaire</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="manager/fichier/caisse">Caisse</a>
+            <a routerLink="fichier/classe">Classe</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="fichier/eleve">Elève</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="fichier/diplome">Diplôme</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="fichier/enseignant">Enseignant</a>
           </li>
         </ul>
       </li>
@@ -50,26 +59,26 @@
       >
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a href="manager/operation/classe_eleve">Répartition des eleves</a>
+            <a routerLink="operation/eleve_classe">Répartition des eleves</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="operation/cours">Cours</a>
+          </li>
+          <!--li nz-menu-item nzMatchRouter>
+            <a routerLink="operation/absence">Absence</a>
+          </li-->
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="operation/evaluation">Evaluation</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="operation/note">Note</a>
           </li>
           <li nz-menu-item nzMatchRouter>
             <a
-              routerLink="manager/operation/classe_enseignant"
+              routerLink="operation/enseignant_classe"
               nz-tooltip="Attribution de classe aux enseignants"
               >Attribution de classe</a
             >
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a href="manager/operation/cours">Cours</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="operation/absence">Absence</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a href="manager/operation/evaluation">Evaluation</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="manager/operation/note">Note</a>
           </li>
         </ul>
       </li>
@@ -83,7 +92,7 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a
-              href="manager/operation/classe_eleve"
+              routerLink="operation/classe_eleve"
               nz-tooltip="Répartition des élève par classe"
               >Répartition des eleves</a
             >
@@ -99,16 +108,25 @@
       >
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a href="manager/param/ecole">Nous</a>
+            <a routerLink="param/ecole">Ecole</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a href="manager/param/groumat">Mode de répartition</a>
+            <a routerLink="param/niveau">Niveau</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a href="manager/param/modereg">Mode de règlement</a>
+            <a routerLink="param/type_eval">Type d'évaluation</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a href="manager/param/type_frais">Type de frais</a>
+            <a routerLink="param/type_frais">Type de frais</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="param/frais">Frais scolaires</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="param/tranche">Tranche </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="param/modereg">Mode de règlement</a>
           </li>
         </ul>
       </li>
@@ -121,8 +139,10 @@
       >
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a href="manager/admin/role">Rôle utilisateur</a>
-            <a href="manager/admin/utilisateur">Utilisateur</a>
+            <a routerLink="admin/role">Rôle utilisateur</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="admin/utilisateur">Utilisateur</a>
           </li>
         </ul>
       </li>
@@ -131,12 +151,20 @@
   <nz-layout>
     <nz-header>
       <div class="app-header">
+        <div class="menu-displayer">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
           <nz-icon
             class="trigger"
             [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           />
         </span>
+      </div>
+      <div class="ecole-info">
+        <h3 class="ecole">{{cont.ets? cont.ets:'' }}</h3>
+      </div>
+      <div class="annee-info">
+        <h3 class="annee">{{cont.annee? cont.annee:null }}</h3>
+      </div>
       </div>
     </nz-header>
     <nz-content>

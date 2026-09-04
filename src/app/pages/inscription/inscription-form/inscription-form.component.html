@@ -1,0 +1,378 @@
+<div class="main-content">
+  <nz-card
+    style="
+      align-content: center;
+      display: flex;
+      flex-direction: column;
+      flex: auto;
+      width: 1100px;
+      align-self: center;
+    "
+  >
+    <form
+      [formGroup]="dataForm"
+      nz-form
+      method="post"
+      (submit)="submit()"
+      autocomplete="on"
+    >
+      <nz-form-control [nzSpan]="4" [nzOffset]="12">
+        <nz-switch
+          formControlName="typ" [nzDisabled]="valueIn"
+          style="align-content: center"
+          formControlName="typ"
+          (ngModelChange)="refresh()"
+          nzCheckedChildren="Inscription"
+          nzUnCheckedChildren="Réinscription"
+          [nz-tooltip]="info"
+        >
+          <!--nz-tooltip="dataform.value.typ? 'Allumez pour inscrire un nouvel élève':'Eteeignez pour réinscrire un ancien élève'"--></nz-switch
+        >
+      </nz-form-control>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="2" nzFor="nom" nzRequired
+              >Nom</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="21"
+              [nzOffset]="1"
+              nzErrorTip="Le nom est obligatoire"
+            >
+              <input
+                nz-input
+                type="text"
+                formControlName="nom"
+                placeholder="Nom "
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="npi" nzRequired
+              >N. P. I</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="16"
+              [nzOffset]="2"
+              nzErrorTip="Le numéro personnel d'identification est obligatoire"
+            >
+              <input
+                nz-input
+                type="text"
+                formControlName="npi"
+                placeholder="Numéro personnel d'identification"
+                nz-tooltip="Numéro personnel d'identification"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="Gutter-row" nz-col nzSpan="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="sex" nzRequired
+              >Sexe</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="16"
+              [nzOffset]="2"
+              nzErrorTip="Le sexe est obligatoire"
+            >
+              <nz-select formControlName="sex">
+                <nz-option nzValue="Féminin" nzLabel="Féminin"></nz-option>
+                <nz-option nzValue="Masculin" nzLabel="Masculin"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="7">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="12" nzFor="dan" nzRequired>
+              Date de naissance</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="11"
+              [nzOffset]="1"
+              nzErrorTip="La date de naissance est obligatoire"
+            >
+              <nz-date-picker
+                formControlName="dan"
+                placeholder="Date de naissance"
+                nzFormat="dd/MM/YYYY"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="lin" nzRequired
+              >Lieu de naissance</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="13"
+              [nzOffset]="1"
+              nzErrorTip="Le lieu de naissance est obligatoire"
+            >
+              <input
+                nz-input
+                formControlName="lin"
+                placeholder="Lieu de naissance "
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="edu">Educmaster</nz-form-label>
+          <nz-form-control [nzSpan]="17" [nzOffset]="1">
+            <input
+              nz-input
+              formControlName="edu"
+              type="string"
+              placeholder="Numéro éducmaster "
+            />
+          </nz-form-control>
+        </nz-form-item>
+</div>
+
+      </div>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="7">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="3" nzFor="ema">Email</nz-form-label>
+          <nz-form-control [nzSpan]="20" [nzOffset]="1">
+            <input
+              nz-input
+              formControlName="ema"
+              type="email"
+              placeholder="Email "
+            />
+          </nz-form-control>
+        </nz-form-item>
+</div>
+        <div class="gutterRow" nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="tel" nzRequired
+            >Téléphone</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="13"
+            [nzOffset]="5"
+            nzErrorTip="Le numéro de téléphone est obligatoire"
+          >
+            <input
+              nz-input
+              formControlName="tel"
+              placeholder="Numéro de téléphone "
+            />
+          </nz-form-control>
+        </nz-form-item>
+</div>
+        <div class="gutterRow" nz-col [nzSpan]="9">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="4" nzFor="adr" nzRequired>Adresse</nz-form-label>
+          <nz-form-control
+            [nzSpan]="18"
+            [nzOffset]="2"
+            nzErrorTip="L'adresse est obligatoire"
+          >
+            <textarea
+              formControlName="adr"
+              placeholder="Adresse précise de l'enseignant"
+              rows="1"
+              nz-input
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+</div>
+      </div>
+      <nz-divider nzText="Information du père"></nz-divider>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="4" nzFor="nomp" nzRequired>Nom</nz-form-label>
+            <nz-form-control
+              [nzSpan]="19" nzOffset="1"
+              nzErrorTip="Le nom est obligatoire"
+            >
+              <input
+                nz-input
+                type="text"
+                formControlName="nomp"
+                placeholder="Nom et prénom du père"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="7">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="prop">Profession</nz-form-label>
+            <nz-form-control [nzSpan]="17" [nzOffset]="1">
+              <input
+                nz-input
+                type="text"
+                formControlName="prop"
+                placeholder="Profession du père"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="9">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5" nzFor="telp" nzRequired
+              >Téléphone</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="18"
+              [nzOffset]="1"
+              nzErrorTip="Le téléphone du père est obligatoire"
+            >
+              <input
+                nz-input
+                type="text"
+                formControlName="telp"
+                placeholder="Téléphone du père"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <nz-divider nzText="Information de la mère"></nz-divider>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="4" nzFor="nomm" nzRequired
+              >Nom</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="19"
+              [nzOffset]="1"
+              nzErrorTip="Le nom la mère est obligatoire"
+            >
+              <input
+                nz-input
+                type="text"
+                formControlName="nomm"
+                placeholder="Nom de la mère"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="7">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="prop">Profession</nz-form-label>
+            <nz-form-control [nzSpan]="17" [nzOffset]="1">
+              <input
+                nz-input
+                type="text"
+                formControlName="prom"
+                placeholder="Profession de la mère"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="9">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5" nzFor="telm" nzRequired>Téléphone</nz-form-label>
+            <nz-form-control
+              [nzSpan]="18"
+              [nzOffset]="1"
+              nzErrorTip="Le téléphone de la mère est obligatoire"
+            >
+              <input
+                nz-input
+                type="text"
+                formControlName="telm"
+                placeholder="Téléphone de la mère"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <nz-divider nzText="Inscription"></nz-divider>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="9">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="4" nzFor="niv" nzRequired
+              >Niveau</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="19" nzOffset="1"
+              nzErrorTip="Le niveau demandé est obbligaatoire"
+            >
+              <nz-select formControlName="niv">
+                <nz-option  *ngFor="let item of niveaux"; [nzValue]="item.code" [nzLabel]="item.libelle"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="gutterRow" nz-col [nzSpan]="7">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="12" nzFor="dai" nzRequired
+              >Date d'inscription</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="11" [nzOffset]="1"
+              nzErrorTip="La date d'inscription est obligatoire"
+            >
+              <nz-date-picker
+                nzMode=""
+                formControlName="dai"
+                placeholder="Date de prise de service"
+                nzFormat="dd/MM/YYYY"
+              ></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="Gutter-row" nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="6" nzFor="sta" nzRequired
+              >Sexe</nz-form-label
+            >
+            <nz-form-control
+              [nzSpan]="16"
+              [nzOffset]="2"
+              nzErrorTip="Le statut de l'inscription est obligatoire"
+            >
+              <nz-select formControlName="sta">
+                <nz-option nzValue="ENCOURS" nzLabel="ENCOURS"></nz-option>
+                <nz-option nzValue="VALIDEE" nzLabel="VALIDEE"></nz-option>
+                <nz-option nzValue="ANNULEE" nzLabel="ANNULEE"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="24">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzFor="obs">Observation</nz-form-label>
+            <nz-form-control [nzSpan]="16" [nzOffset]="1">
+              <input
+                nz-input
+                type="text"
+                formControlName="obs"
+                placeholder="Observation"
+              />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+
+      <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+        <nz-form-item nzAlign="middle" nzJustify="center">
+          <nz-form-control>
+            <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+              Valider
+            </button>
+            <button nz-button>Annuler</button>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </form>
+  </nz-card>
+</div>

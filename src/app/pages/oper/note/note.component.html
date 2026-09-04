@@ -1,0 +1,55 @@
+<nz-card style="display: flex; flex-direction: column; flex: 1; height: 100%; overflow: hidden;">
+  <div class="section-header">
+    <div class="search-data">
+      <nz-input-group [nzPrefix]="prefixTemplate">
+        <input
+          type="text"
+          placeholder="Portion de text recherché"
+          nz-input
+          nz-tooltip="Critères de recherche"
+          [(ngModel)]="searchInput"
+          (ngModelChange)="search()"
+        />
+      </nz-input-group>
+      <ng-template #prefixTemplate>
+        <i nz-icon nzType="search" class="opacity-05"></i>
+      </ng-template>
+    </div>
+    <div class="button text-right">
+      <button nz-button nzType="primary" (click)="create()">
+        <i nz-icon nzType="file-excel" theme="outline"></i>
+        <span>Nouveau</span>
+      </button>
+    </div>
+  </div>
+<div class="content-section">
+  <nz-table #ordersListTable [nzData]="displayed" style="overflow-y: auto; scroll-behavior: auto; display: flex; flex-direction: column;
+  flex: 1; height: 100%; ">
+      <thead>
+          <tr>
+              <th>Eleve</th>
+              <th>Evaluation</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody style="scroll-behavior: auto; overflow: hidden;">
+          <tr *ngFor="let item of ordersListTable.data;  let i=index">
+              <td>item.codeMatiere</td>
+              <td>
+                   item.libMatiere
+              </td>
+              <td class="text-md-right">
+                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
+                  (click)="edit(item)">
+                      <i nz-icon nzType="edit" theme="outline"></i>
+                  </button>
+                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
+                  (click)="confirmDeleting(item)">
+                      <i nz-icon nzType="delete" theme="outline"></i>
+                  </button>
+              </td>
+          </tr>
+      </tbody>
+  </nz-table>
+</div>
+</nz-card>

@@ -1,0 +1,50 @@
+<nz-card style="display: flex; flex-direction: column; flex: 1; height: 100%; overflow: hidden;">
+  <div class="section-header">
+      <nz-input-group [nzPrefix]="prefixTemplate">
+        <input
+          type="text"
+          placeholder="Portion de text recherché"
+          nz-input
+          nz-tooltip="Critères de recherche"
+          [(ngModel)]="searchInput"
+          (ngModelChange)="search()"
+        />
+      </nz-input-group>
+      <ng-template #prefixTemplate>
+        <i nz-icon nzType="search" class="opacity-05"></i>
+      </ng-template>
+    </div>
+<div class="content-section">
+  <nz-table #ordersListTable [nzData]="displayed" style="overflow-y: auto; scroll-behavior: auto; display: flex; flex-direction: column;
+  flex: 1; height: 100%;" nzBordered="true">
+      <thead>
+          <tr>
+              <th>Inscription</th>
+              <th>Date</th>
+              <th>N° Educmaster</th>
+              <th>Eleve</th>
+              <th>Sexe</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody><!--/tbody> style="scroll-behavior: auto; overflow: hidden;"-->
+        @for (item of displayed; track item.inscription.id) {
+          <tr><!--/tr> *ngFor="let item of ordersListTable.data;  let i=index"-->
+              <td>{{item.inscription.numeroInscription}}</td>
+              <td>{{ item.inscription.dateInscription|date:'dd/MM/yyyy'}}</td>
+              <td>{{ item.inscription.eleve.educmaster }}</td>
+              <td>{{ item.inscription.eleve.nom }}</td>
+              <td>{{ item.inscription.eleve.sexe }}</td>
+              <td class="text-md-right">
+                <nz-switch [(ngModel)]="item.select" [nzCheckedChildren]="valueIn.codeClasse" nzUnCheckedChildren="Non classé"></nz-switch>
+                  <!--button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
+                  (click)="considerChoice(item)">
+                      <i nz-icon nzType="plus" theme="outline"></i>
+                  </button-->
+              </td>
+          </tr>
+        }
+      </tbody>
+  </nz-table>
+</div>
+</nz-card>

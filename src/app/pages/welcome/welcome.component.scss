@@ -13,8 +13,41 @@
   position: relative;
   z-index: 10;
   min-height: 100vh;
-  background: #1919ff;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  //background: #1919ff;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+}
+:host ::ng-deep .menu-sidebar .antd-menu {
+  border-right: 0;
+  //background: #1919ff;
+}
+
+:host ::ng-deep .menu-sidebar .antd-menu-dark {
+  border-right: 0;
+  //background: #1919ff;
+}
+
+:host ::ng-deep .menu-sidebar .antd-menu {
+  border-right: 0;
+  //background: #1919ff;
+}
+
+/* Éléments principaux */
+:host ::ng-deep .menu-sidebar .ant-menu-item,
+:host ::ng-deep .menu-sidebar .ant-menu-submenu-title {
+  color: #ffffff;
+}
+
+/* Survol */
+:host ::ng-deep .menu-sidebar .ant-menu-item:hover,
+:host ::ng-deep .menu-sidebar .ant-menu-submenu-title:hover {
+  //background: #1919ff;
+  color: #ffffff;
+}
+
+/* Élément sélectionné */
+:host ::ng-deep .menu-sidebar .ant-menu-item-selected {
+  //background: #1919ff;
+  color: #ffffff;
 }
 
 .header-trigger {
@@ -22,7 +55,9 @@
   padding: 20px 24px;
   font-size: 20px;
   cursor: pointer;
-  transition: all .3s,padding 0s;
+  transition:
+    all 0.3s,
+    padding 0s;
 }
 
 .trigger:hover {
@@ -35,8 +70,8 @@
   padding-left: 24px;
   overflow: hidden;
   line-height: 64px;
-  background: #4cff;
-  transition: all .3s;
+  background: #44ccff;
+  transition: all 0.3s;
 }
 
 .sidebar-logo img {
@@ -52,7 +87,12 @@
   color: #fff;
   font-weight: 600;
   font-size: 14px;
-  font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+  font-family:
+    Avenir,
+    Helvetica Neue,
+    Arial,
+    Helvetica,
+    sans-serif;
   vertical-align: middle;
 }
 
@@ -66,8 +106,23 @@ nz-header {
   position: relative;
   height: 64px;
   padding: 0;
-  background: #4cff;//#63f09b;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  background: #44ccff; //#63f09b;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  column-gap: 10px;
+}
+.menu-displayer {
+  width: 15%;
+}
+.ecole-info {
+  width: 50%;
+}
+.annee-info {
+  width: 35%;
 }
 
 nz-content {
@@ -79,9 +134,6 @@ nz-content {
   padding: 24px;
   background: #fff;
   height: 100%;
-  overflow-y: auto;overflow-x: hidden;
-}
-
-ul nz-menu nz-menu-item {
-  background: #74c281;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

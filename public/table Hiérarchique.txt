@@ -1,0 +1,121 @@
+Franchise immo: 0163242405/0167344448
+interface ParentItemData {
+  key: number;
+  name: string;
+  platform: string;
+  version: string;
+  upgradeNum: number | string;
+  creator: string;
+  createdAt: string;
+  expand: boolean;
+}
+
+interface ChildrenItemData {
+  key: number;
+  name: string;
+  date: string;
+  upgradeNum: string;
+}
+
+@Component({
+  selector: 'nz-demo-table-nested-table',
+  imports: [NzBadgeModule, NzDividerModule, NzDropdownModule, NzIconModule, NzTableModule],
+  template: `
+    <nz-table #nestedTable [nzData]="listOfParentData" [nzPageSize]="10">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Platform</th>
+          <th>Version</th>
+          <th>Upgraded</th>
+          <th>Creator</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of nestedTable.data; track data) {
+          <tr>
+            <td [(nzExpand)]="data.expand"></td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.platform }}</td>
+            <td>{{ data.version }}</td>
+            <td>{{ data.upgradeNum }}</td>
+            <td>{{ data.creator }}</td>
+            <td>{{ data.createdAt }}</td>
+            <td>
+              <a>Publish</a>
+            </td>
+          </tr>
+          <tr [nzExpand]="data.expand">
+            <nz-table #innerTable [nzData]="listOfChildrenData" nzSize="middle" [nzShowPagination]="false">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Upgrade Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (data of innerTable.data; track data) {
+                  <tr>
+                    <td>{{ data.date }}</td>
+                    <td>{{ data.name }}</td>
+                    <td>
+                      <nz-badge nzStatus="success" nzText="Finished" />
+                    </td>
+                    <td>{{ data.upgradeNum }}</td>
+                    <td>
+                      <span class="table-operation">
+                        <a nz-dropdown class="operation" [nzDropdownMenu]="menu">
+                          Pause
+                          <nz-icon nzType="down" />
+                        </a>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                          <ul nz-menu>
+                            <li nz-menu-item>
+                              <a>Action 1</a>
+                            </li>
+                            <li nz-menu-item>
+                              <a>Action 2</a>
+                            </li>
+                          </ul>
+                        </nz-dropdown-menu>
+                        <nz-divider nzType="vertical" />
+                        <a class="operation">Stop</a>
+                        <nz-divider nzType="vertical" />
+                        <a>More</a>
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </nz-table>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  `
+})
+export class NzDemoTableNestedTableComponent {
+  readonly listOfParentData: ParentItemData[] = Array.from({ length: 3 }).map((_, i) => ({
+    key: i,
+    name: 'Screen',
+    platform: 'iOS',
+    version: '10.3.4.5654',
+    upgradeNum: 500,
+    creator: 'Jack',
+    createdAt: '2014-12-24 23:12:00',
+    expand: false
+  }));
+  readonly listOfChildrenData: ChildrenItemData[] = Array.from({ length: 3 }).map((_, i) => ({
+    key: i,
+    date: '2014-12-24 23:12:00',
+    name: 'This is production name',
+    upgradeNum: 'Upgraded: 56'
+  }));
+}
+

@@ -1,39 +1,115 @@
-<nz-card style="display: flex; flex-direction: column; flex: 1">
-  <div class="col-lg-12">
-    <div class="d-md-flex2">
-      <div class="m-b-10 m-r-15">
-        <nz-input-group [nzPrefix]="prefixTemplate">
-          <input
-            type="text"
-            nz-input
-            nz-tooltip="Recherche....."
-            [(ngModel)]="searchInput"
-            (ngModelChange)="search()"
-          />
-        </nz-input-group>
-        <ng-template #prefixTemplate>
-          <i nz-icon nzType="search" class="opacity-05"></i>
-        </ng-template>
-      </div>
-      <div class="col-lg-4 text-right">
-        <button nz-button nzType="primary" (click)="create()">
-          <i nz-icon nzType="file-excel" theme="outline"></i>
-          <span>Nouveau</span>
-        </button>
-      </div>
-      <!--div class="m-b-10 m-r-20 d-flex align-items-center">
-          <nz-select
-            style="min-width: 220px"
-            class="w-100"
-            nzPlaceHolder="Status"
-          >
-            <nz-option nzLabel="All" nzValue="all"></nz-option>
-            <nz-option nzLabel="Approved" nzValue="approved"></nz-option>
-            <nz-option nzLabel="Pending" nzValue="pending"></nz-option>
-            <nz-option nzLabel="Rejected" nzValue="rejected"></nz-option>
-          </nz-select>
-        </div-->
+<nz-card
+  style="
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  "
+>
+  <div class="section-header">
+    <div class="search-data">
+      <nz-input-group [nzPrefix]="prefixTemplate">
+        <input
+          type="text"
+          placeholder="Portion de text recherché"
+          nz-input
+          nz-tooltip="Critères de recherche"
+          [(ngModel)]="searchInput"
+          (ngModelChange)="search()"
+        />
+      </nz-input-group>
+      <ng-template #prefixTemplate>
+        <i nz-icon nzType="search" class="opacity-05"></i>
+      </ng-template>
+    </div>
+    <div class="button text-right">
+      <button
+        nz-button
+        nzType="primary"
+        (click)="create()"
+        *ngIf="activeAbsente()"
+      >
+        <i nz-icon nzType="file-excel" theme="outline"></i>
+        <span>Nouveau</span>
+      </button>
     </div>
   </div>
+  <div class="content-section">
+    <nz-table
+      #ordersListTable
+      [nzData]="displayed"
+      style="
+        overflow-y: auto;
+        scroll-behavior: auto;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+      "
+    >
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>libellé</th>
+          <th>Date Début</th>
+          <th>Date fin</th>
+          <th>Etat</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody style="scroll-behavior: auto; overflow: hidden">
+        <tr *ngFor="let item of ordersListTable.data; let i = index">
+          <td>{{ item.code }}</td>
+          <td>
+            {{ item.libelle }}
+          </td>
+          <td>
+            {{ item.dateDeb | date: "dd/MM/YYYY" }}
+          </td>
+          <td>
+            {{ item.dateFin | date: "dd/MM/YYYY" }}
+          </td>
+          <td>
+            {{ item.active ? "Active" : "Passée" }}
+          </td>
+          <td class="text-md-right">
+            <button
+              class="m-r-5"
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Modifier"
+              (click)="edit(item)"
+            >
+              <i nz-icon nzType="edit" theme="outline"></i>
+            </button>
+            <button
+              class="m-r-5"
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Ouvrir l'année"
+              (click)="openAnnee(item)"
+            >
+              <i nz-icon nzType="folder-open" theme="outline"></i>
+            </button>
+            <button
+              class="m-r-5"
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Supprimer"
+              (click)="confirmDeleting(item)"
+            >
+              <i nz-icon nzType="delete" theme="outline"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </nz-card>
-Fin de page
