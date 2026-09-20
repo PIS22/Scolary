@@ -230,7 +230,7 @@ export class InscriptionFormComponent implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
-      npi: [this.valueIn ? this.valueIn.eleve.npi : null, Validators.required],
+      npi: [this.valueIn ? this.valueIn.eleve.npi : null],
       nom: [this.valueIn ? this.valueIn.eleve.nom : null, Validators.required],
       dan: [
         this.valueIn ? this.valueIn.eleve.dateNaissance : new Date(),
@@ -238,7 +238,6 @@ export class InscriptionFormComponent implements OnInit {
       ],
       lin: [
         this.valueIn ? this.valueIn.eleve.lieuNaissance : null,
-        Validators.required,
       ],
       sex: [this.valueIn ? this.valueIn.eleve.sexe : null, Validators.required],
       nomp: [
@@ -276,18 +275,9 @@ export class InscriptionFormComponent implements OnInit {
         this.valueIn ? this.valueIn.eleve.adresse : null,
         Validators.required,
       ],
-      ema: [
-        this.valueIn ? this.valueIn.eleve.email : null,
-        Validators.required,
-      ],
-      edu: [
-        this.valueIn ? this.valueIn.eleve.educmaster : null,
-        Validators.required,
-      ],
-      tel: [
-        this.valueIn ? this.valueIn.eleve.telephone : null,
-        Validators.required,
-      ],
+      ema: [this.valueIn ? this.valueIn.eleve.email : null],
+      edu: [this.valueIn ? this.valueIn.eleve.educmaster : null],
+      tel: [this.valueIn ? this.valueIn.eleve.telephone : null],
       sta: [this.valueIn ? this.valueIn.statut : null, Validators.required],
     });
     this.refresh();

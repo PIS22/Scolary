@@ -15,12 +15,13 @@ import { TypFormComponent } from './typ-form/typ-form.component';
 import { EvalService } from '../../../../services/eval.service';
 import { Eleve } from '../../def/eleve/eleve.component';
 import { Matiere } from '../../def/matiere/matiere.component';
-import { AffectionEleve } from '../../oper/eleve-classe/eleve-classe.component';
+import { AffectationEleve } from '../../oper/eleve-classe/eleve-classe.component';
 import { Periode } from '../../welcome/welcome.component';
 
 export interface TypeEval {
   id: number;
-  libTypeEva: string;
+  code: string;
+  libelle: string;
 }
 
 export interface Evaluation{
@@ -35,7 +36,7 @@ export interface Evaluation{
 export interface Note{
   id: number;
   matiere: Matiere;
-  affectationEleve: AffectionEleve;
+  affectationEleve: AffectationEleve;
   evaluation: Evaluation
   note: number;
   noteSur: number;
@@ -109,7 +110,7 @@ export class TypeEvaluationComponent implements OnInit {
   search() {
     this.displayed = this.datas.filter((d) => {
       return (
-        d.libTypeEva.includes(this.searchInput)
+        d.libelle.includes(this.searchInput)
       );
     });
   }
@@ -138,7 +139,7 @@ export class TypeEvaluationComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.libTypeEva + '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.libelle + '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',

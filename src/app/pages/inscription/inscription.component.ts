@@ -94,7 +94,17 @@ export class InscriptionComponent implements OnInit {
         });
   }
 
-  search() {}
+  search() {
+    if(this.searchInput){
+      this.displayed = this.datas.filter(d => 
+        d.classeDemandee.toLowerCase().includes(this.searchInput.toLowerCase()) ||
+          d.eleve.nom.toLowerCase().includes(this.searchInput.toLowerCase()) ||
+          d.observation?.toLocaleLowerCase().includes(this.searchInput.toLowerCase())
+      );
+    }
+    else
+      this.displayed=this.datas
+  }
 
   validate(_t37: Inscription) {
     throw new Error('Method not implemented.');

@@ -76,7 +76,7 @@ export class PaiementComponent implements OnInit {
       .create<PaiementFormComponent, { valueIn: any }>({
         nzTitle: 'Créer un paiement',
         nzContent: PaiementFormComponent,
-        nzWidth: 500,
+        nzWidth: 700,
         nzData: {
           valueIn: {
             id: null,

@@ -1,5 +1,10 @@
 <div class="main-content">
   <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+    <nz-form-item nzAlign="middle">
+      <nz-form-control [nzSpan]="11" [nzOffset]="3">
+        <nz-switch nzCheckedChildren="Frais obligatoires" nzUnCheckedChildren="Frais facultatifs" formControlName="obg"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequire [nzSpan]="2" nzFor="cod"> Code</nz-form-label>
       <nz-form-control [nzSpan]="11" [nzOffset]="3">
@@ -54,7 +59,7 @@
     </nz-form-item>
       </div>
       <div class="Gutter-row" nz-col  nzSpan="12" *ngIf="dataForm.value.por!='SPECIFIQUE'">
-    
+
     <!--nz-form-item>
       <nz-form-label [nzSpan]="3" nzFor="cla" nzRequired>Classe</nz-form-label>
       <nz-form-control

@@ -14,6 +14,7 @@ import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { ContexteService } from '../../../../services/contexte.service';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 export interface Annee {
   id: number;
@@ -21,7 +22,7 @@ export interface Annee {
   libelle: string;
   dateDeb: Date;
   dateFin: Date;
-  active: boolean;
+  etat: 'PREPARATION'|'EN_COURS'|'TERMINEE'|'ARCHIVEE';
 }
 
 @Component({
@@ -58,55 +59,30 @@ export class AnneeComponent implements OnInit {
     private drawer: NzDrawerService,
     private cont: ContexteService,
     private modal: NzModalService,
-  ) { }
-
-
+  ) {}
 
   ngOnInit(): void {
     this.service.getEtanForEtab(this.cont.etsId).subscribe((re) => {
-      this.datas = re.map(r => {
+      this.datas = re.map((r) => {
         return r.anneeScolaire;
       });
       this.displayed = this.datas;
-      if (!this.datas.find(d => { return d.id == this.cont.anneeId }))
-        this.service.getLastEtanForEtab(this.cont.etsId).subscribe(
-          (res) => {
-            if (res)
-              this.cont.saveAnneeContext(res.anneeScolaire)
-            else
-              this.cont.clearAnneeContext();
+      if (
+        !this.datas.find((d) => {
+          return d.id == this.cont.anneeId;
         })
-    });
-  }
-
-  activeAbsente(): boolean{
-    if(this.datas.find(d => d.active))
-    return false;
-    else {
-      this.service.getList().subscribe(
-        (resp) => {
-          if (!resp)
-            return true;
-          else {
-            if (resp.length == 0)
-              return true;
-            else
-              if (resp.find(r => r.active))
-                return true
-              else
-                return false
-          }
-        },
-        (err)=>{return false}
       )
-      return false;
-    }
+        this.service.getLastEtanForEtab(this.cont.etsId).subscribe((res) => {
+          if (res) this.cont.saveAnneeContext(res.anneeScolaire);
+          else this.cont.clearAnneeContext();
+        });
+    });
   }
 
   create() {
     this.drawer
       .create<AnneeFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une cannee scolaire',
+        nzTitle: 'Créer une année scolaire',
         nzContent: AnneeFormComponent,
         nzWidth: 500,
         nzData: {
@@ -121,25 +97,31 @@ export class AnneeComponent implements OnInit {
       })
       .afterClose.subscribe((data) => {
         if (data) {
-          if(data.active){
-            this.service.createEtan({
-              idEtablissement: this.cont.etsId,
-              idAnneeScolaire: data.id,
-              dateOuverture: data.dateDeb,
-              dateFermeture: null,
-              motif: null,
-              etat: 'OUVERTE',
-              generationAutomatiqueNumeroInscription: true
-            }).subscribe(
-              (re) => {
+          console.log(data)
+          if (data.etat=='PREPARATION'||data.etat=='EN_COURS') {
+            let etas={
+                idEtablissement: this.cont.etsId,
+                idAnneeScolaire: data.id,
+                dateOuverture: data.dateDeb,
+                dateFermeture: null,
+                motif: null,
+                etat: 'OUVERTE',
+                generationAutomatiqueNumeroInscription: true,
+            }
+            console.log(etas)
+            this.service
+              .createEtan(etas)
+              .subscribe((re) => {
+                console.log(re);
                 if (re) {
                   this.cont.saveAnneeContext(re.anneeScolaire);
                   this.datas.push(data);
-                  this.displayed=[...this.datas]
+                  this.displayed = [...this.datas];
+                  this.displayed=[...this.displayed]
                 }
-              }
-            )}
+              });
           }
+        }
       });
   }
 
@@ -158,7 +140,7 @@ export class AnneeComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<AnneeFormComponent, { valueIn: Annee }>({
-        nzTitle: 'Modifier la cannee scolaire',
+        nzTitle: 'Modifier la année scolaire',
         nzContent: AnneeFormComponent,
         nzWidth: 500,
         nzData: {
@@ -179,7 +161,7 @@ export class AnneeComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.libelle + '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer l\'' + _t72.libelle + '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',

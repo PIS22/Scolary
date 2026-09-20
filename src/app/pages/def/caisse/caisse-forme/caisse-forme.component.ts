@@ -55,8 +55,9 @@ export class CaisseFormeComponent implements OnInit {
       id: this.dataForm.value.id,
       codeCaisse: this.dataForm.value.code,
       libCaisse: this.dataForm.value.libe,
-      idEtablissement: this.cont.ecoleId,
+      idEtablissement: this.cont.etsId,
     };
+
     if (body.id) {
       this.service.edit(body).subscribe(
         (res) => {

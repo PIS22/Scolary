@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -19,12 +19,14 @@ import { FraisFormComponent } from './frais-form/frais-form.component';
 import { Niveau } from '../../param/niveau/niveau.component';
 import { Classe } from '../classe/classe.component';
 import { FraisClassFormComponent } from './frais-class-form/frais-class-form.component';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 export interface Frais{
   id: number;
   codeFrais: string;
   libelle: string;
-  porte: string;
+  portee: string;
+  facultatif: boolean;
   montant: number;
   typeFrais: TypeFrais;
   etablissement: Site;
@@ -32,11 +34,17 @@ export interface Frais{
 }
 
 export interface FraisClasse{
+  id: number;
   montant: number;
   frais: Frais;
   classe: Classe;
 }
 
+interface fraisRow{
+  expanded: boolean;
+  frais: Frais;
+  fraisClasses: FraisClasse[];
+}
 
 export interface Tranche{
   id: number;
@@ -60,7 +68,8 @@ export interface Tranche{
       NzTableModule,
       NzButtonModule,
       NzToolTipModule,
-      NzModalModule,
+    NzModalModule,
+    NzTagModule,
     NzDrawerModule,
   ],
   templateUrl: './frais.component.html',
@@ -69,9 +78,11 @@ export interface Tranche{
 export class FraisComponent implements OnInit {
 
   searchInput: string = '';
-  datas: Frais[]=[];
+  datas: fraisRow[]=[];
   children:any;
   displayed: any;
+  @Input() frais: fraisRow[] = [];
+det: boolean =false;
 
   constructor(
     private service: FraisService,
@@ -83,21 +94,15 @@ export class FraisComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getFraisList().subscribe((res) => {
-      this.datas = res;
+      this.datas = res.map(d=>{return {expanded: false, frais: d, fraisClasses:[]}});
       this.displayed = this.datas;
-      console.log(this.displayed);
-      this.datas.forEach(e => {
-        this.service.getListByFrais(e.id).subscribe(
-
-        )
-      })
     });
   }
 
   create() {
     this.drawer
       .create<FraisFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une cannee scolaire',
+        nzTitle: 'Créer un frais',
         nzContent: FraisFormComponent,
         nzWidth: 600,
         nzData: {
@@ -111,7 +116,7 @@ export class FraisComponent implements OnInit {
         },
       })
       .afterClose.subscribe((data) => {
-        if (data) {
+        if (data.id) {
           this.datas.push(data);
           this.displayed = [...this.datas];
         }
@@ -133,7 +138,7 @@ export class FraisComponent implements OnInit {
     let ind = this.datas.length+2//this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<FraisFormComponent, { valueIn: Frais }>({
-        nzTitle: 'Modifier la cannee scolaire',
+        nzTitle: 'Modifier le frais',
         nzContent: FraisFormComponent,
         nzWidth: 500,
         nzData: {
@@ -172,14 +177,29 @@ export class FraisComponent implements OnInit {
     );
   }
 
+  onExpandChange(f: fraisRow) {
+    f.expanded = !f.expanded
+    console.log(f.expanded+' '+f.frais.portee);
+
+    if(f.expanded){
+      this.service.getListByFrais(f.frais.id).subscribe(
+        (list) => {
+          f.fraisClasses = list;
+          console.log(f.fraisClasses);
+        })
+    }
+  }
+
   addChild(_t58: any) {
+    console.log(_t58);
+
     this.drawer
       .create<FraisClassFormComponent, { valueIn: Frais }>({
         nzTitle: 'Nouveau frais classe',
         nzContent: FraisClassFormComponent,
         nzWidth: 500,
         nzData: {
-          valueIn: _t58,
+          valueIn: _t58.frais,
         },
       })
       .afterClose.subscribe((data) => {

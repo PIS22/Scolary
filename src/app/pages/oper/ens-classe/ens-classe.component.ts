@@ -82,7 +82,7 @@ export class EnsClasseComponent implements OnInit {
   search() {
     this.displayed = this.datas.filter((d) => {
       return (
-        d.classe.libClasse.includes(this.searchInput) ||
+        d.classe?.libClasse.includes(this.searchInput) ||
         d.enseignant.nom.includes(this.searchInput)
       );
     });
@@ -112,7 +112,7 @@ export class EnsClasseComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.classe.libClasse + '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.classe?.libClasse + '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',
@@ -120,6 +120,7 @@ export class EnsClasseComponent implements OnInit {
     });
   }
   delete(_t72: EnseignerClasse) {
+    if(_t72.id)
     this.service.delete(_t72.id).subscribe(
       (res) => {
         console.log(res);

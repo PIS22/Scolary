@@ -1,1 +1,116 @@
-<p>form-ec works!</p>
+<div class="main-content">
+  <form
+    nz-form
+    [formGroup]="dataForm"
+    nz-form
+    method="post"
+    (submit)="submit()"
+  >
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" nzFor="ens" nzRequired
+        >Enseignant</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="17"
+        [nzOffset]="2"
+        nzErrorTip="Veuillez sélectionner l'enseignant"
+      >
+        <nz-select
+          nzDisabled="true"
+          formControlName="ens"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+        >
+          <nz-option
+            *ngFor="let item of ens"
+            [nzValue]="item.id"
+            [nzLabel]="item.nom"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="cla" nzRequired>Classe</nz-form-label>
+      <nz-form-control
+        [nzSpan]="17"
+        [nzOffset]="3"
+        nzErrorTip="Veuillez sélectionner la classe"
+      >
+        <nz-select
+          formControlName="cla"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+        >
+          <nz-option
+            *ngFor="let item of classes"
+            [nzValue]="item"
+            [nzLabel]="item.libClasse"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+      <div class="gutterRow" nz-col [nzSpan]="14">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="12" nzfor="dat" nzRequired
+            >Date d'affectation</nz-form-label
+          >
+          <nz-form-control [nzSpan]="11" [nzOffset]="1">
+            <nz-date-picker
+              formControlName="dat"
+              nz-tooltip="Date d'affectation"
+              nzFormat="dd/MM/YYYY"
+            ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="gutterRow" nz-col [nzSpan]="9" [nzOffset]="1">
+        <nz-form-item>
+          <nz-form-control [nzSpan]="20" [nzOffset]="2">
+            <nz-switch
+              style="align-content: center"
+              formControlName="tit"
+              nzCheckedChildren="Maître titulaire"
+              nzUnCheckedChildren="Maître assistant"
+            ></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <nz-divider nzTitle="Matières à dispenser"></nz-divider>
+    <div class="matieres-list" nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }" *ngIf="matieres.length > 0">
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        <div class="gutterRow" nz-col [nzSpan]="24" style="display: flex; flex-direction: column; flex: 1; align-content: center;">
+            <nz-form-item>
+            <nz-label nz-checkbox [nzChecked]="false" (click)="selectAll($event)" nzSpan="24">Sélectionner toutes les matières</nz-label>
+            </nz-form-item>
+        </div>
+        <br>
+      </div>
+      <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
+        @for (item of matieres; track item) {
+          <div class="gutterRow" nz-col [nzSpan]="12">
+              <nz-label
+                nz-checkbox
+                [nzChecked]="item.chosen"
+                (click)="consider(item)"
+                >{{ item.matiere.libMatiere }}
+              </nz-label>
+              <!--nz-form-item>
+            </nz-form-item-->
+          </div>
+        }
+      </div>
+    </div>
+    <nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+          Valider
+        </button>
+        <button nz-button (click)="close(null)">Annuler</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

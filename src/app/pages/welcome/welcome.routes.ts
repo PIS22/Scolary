@@ -21,6 +21,7 @@ import { EvaluationComponent } from '../def/evaluation/evaluation.component';
 import { EnsClasseComponent } from '../oper/ens-classe/ens-classe.component';
 import { NoteComponent } from '../oper/note/note.component';
 import { TrancheComponent } from '../def/tranche/tranche.component';
+import { PaiementComponent } from '../oper/paiement/paiement.component';
 
 export const WELCOME_ROUTES: Routes = [
   {
@@ -34,7 +35,6 @@ export const WELCOME_ROUTES: Routes = [
         path: 'fichier',
         children: [
           { path: 'annee_scolaire', component: AnneeComponent },
-          { path: 'caisse', component: CaisseComponent },
           { path: 'classe', component: ClasseComponent },
           { path: 'diplome', component: DiplomeComponent },
           { path: 'eleve', component: EleveComponent },
@@ -46,6 +46,7 @@ export const WELCOME_ROUTES: Routes = [
       {
         path: 'operation',
         children: [
+          { path: 'caisse', component: PaiementComponent },
           { path: 'enseignant_classe', component: EnsClasseComponent },
           { path: 'eleve_classe', component: EleveClasseComponent },
           { path: 'evaluation', component: EvaluationComponent },
@@ -58,6 +59,7 @@ export const WELCOME_ROUTES: Routes = [
           { path: 'groumat', component: GroupeMatiereComponent },
           { path: 'niveau', component: NiveauComponent },
           { path: 'type_eval', component: TypeEvaluationComponent },
+          { path: 'caisse', component: CaisseComponent },
           { path: 'type_frais', component: TypeFraisComponent },
           { path: 'frais', component: FraisComponent },
           { path: 'tranche', component: TrancheComponent },

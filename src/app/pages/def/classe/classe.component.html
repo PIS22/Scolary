@@ -27,6 +27,7 @@
   flex: 1; height: 100%;" nzBordered="true">
       <thead>
           <tr>
+              <th></th>
               <th>Code</th>
               <th>libellé</th>
               <th>Ordre</th>
@@ -35,33 +36,46 @@
           </tr>
       </thead>
       <tbody style="scroll-behavior: auto; overflow: hidden;">
-        @for (item of displayed; track item.id) {
+        @for (item of displayed; track item.classe.id) {
           <tr><!--/tr> *ngFor="let item of ordersListTable.data;  let i=index"-->
-              <td>{{item.codeClasse}}</td>
-              <td>
-                  {{ item.libClasse }}
-              </td>
-              <td>
-                  {{ item.niveau.ordre }}
-              </td>
-              <td>
-                  {{ item.capacite }}
-              </td>
-              <td class="text-md-right">
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
-                  (click)="edit(item)">
-                      <i nz-icon nzType="edit" theme="outline"></i>
-                  </button>
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
-                  (click)="popaddingStudent(item)">
+            <td>
+                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip="Afficher les élève de la classe"
+                  (click)="showMembers(item)">
                       <i nz-icon nzType="plus" theme="outline"></i>
                   </button>
+                </td>
+              <td>{{item.classe.codeClasse}}</td>
+              <td>
+                  {{ item.classe.libClasse }}
+              </td>
+              <td>
+                  {{ item.classe.niveau.ordre }}
+              </td>
+              <td>
+                  {{ item.classe.capacite }}
+              </td>
+              <td class="text-md-right">
+                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip [nzTooltipTitle]="printInfo(item.classe)"
+                  (click)="printList(item.classe)">
+                      <i nz-icon nzType="printer" theme="outline"></i>
+                  </button>
+                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
+                  (click)="edit(item.classe)">
+                      <i nz-icon nzType="edit" theme="outline"></i>
+                  </button>
+                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Affecter des élèves dans cette classe"
+                  (click)="popaddingStudent(item.classe)">
+                      <i nz-icon nzType="user-add" theme="outline"></i>
+                  </button>
                   <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
-                  (click)="confirmDeleting(item)">
+                  (click)="confirmDeleting(item.classe)">
                       <i nz-icon nzType="delete" theme="outline"></i>
                   </button>
               </td>
           </tr>
+              <tr>
+                <nz-table></nz-table>
+              </tr>
         }
       </tbody>
   </nz-table>

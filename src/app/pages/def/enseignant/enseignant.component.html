@@ -1,4 +1,12 @@
-<nz-card style="display: flex; flex-direction: column; flex: 1; height: 100%; overflow: hidden;">
+<nz-card
+  style="
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  "
+>
   <div class="section-header">
     <div class="search-data">
       <nz-input-group [nzPrefix]="prefixTemplate">
@@ -22,42 +30,81 @@
       </button>
     </div>
   </div>
-<div class="content-section">
-  <nz-table #ordersListTable [nzData]="displayed" style="overflow-y: auto; scroll-behavior: auto; display: flex; flex-direction: column;
-  flex: 1; height: 100%; ">
+  <div class="content-section">
+    <nz-table
+      #ordersListTable
+      [nzData]="displayed"
+      style="
+        overflow-y: auto;
+        scroll-behavior: auto;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+      "
+    >
       <thead>
-          <tr>
-              <th>NPI</th>
-              <th>Nom</th>
-              <th>Matricule</th>
-              <th>Date de naissance</th>
-              <th>Lieu de naissance</th>
-              <th>Sexe</th>
-              <th>Actions</th>
-          </tr>
+        <tr>
+          <th></th>
+          <th>NPI</th>
+          <th>Nom</th>
+          <th>Matricule</th>
+          <th>Date de naissance</th>
+          <th>Lieu de naissance</th>
+          <th>Sexe</th>
+          <th>Actions</th>
+        </tr>
       </thead>
-      <tbody style="scroll-behavior: auto; overflow: hidden;">
-          <tr *ngFor="let item of ordersListTable.data;  let i=index">
-            <td>{{item.numNpi}}</td>
-              <td>{{item.nom}}</td>
-              <td>{{item.matricule}}</td>
-              <td>
-                  {{ item.dateNaissance | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>{{item.lieuNaissance}} </td>
-              <td>{{item.sexe}} </td>
-              <td class="text-md-right">
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
-                  (click)="edit(item)">
-                      <i nz-icon nzType="edit" theme="outline"></i>
-                  </button>
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
-                  (click)="confirmDeleting(item)">
-                      <i nz-icon nzType="delete" theme="outline"></i>
-                  </button>
-              </td>
-          </tr>
+      <tbody style="scroll-behavior: auto; overflow: hidden">
+        <tr *ngFor="let item of ordersListTable.data; let i = index">
+          <td><button nz-button (click)="showClassAssignation(item)">
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+          </button></td>
+          <td>{{ item.numNpi }}</td>
+          <td>{{ item.nom }}</td>
+          <td>{{ item.matricule }}</td>
+          <td>
+            {{ item.dateNaissance | date: "dd/MM/yyyy" }}
+          </td>
+          <td>{{ item.lieuNaissance }}</td>
+          <td>{{ item.sexe }}</td>
+          <td class="text-md-right">
+            <button
+              class="m-r-5"
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Assigner une classe à l'ensaignant"
+              (click)="popNewClassAssignation(item)"
+            >
+              <i nz-icon nzType="edit" theme="outline"></i>
+            </button>
+            <button
+              class="m-r-5"
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Modifier"
+              (click)="edit(item)"
+            >
+              <i nz-icon nzType="edit" theme="outline"></i>
+            </button>
+            <button
+              class="m-r-5"
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nz-tooltip
+              nzTooltipTitle="Supprimer"
+              (click)="confirmDeleting(item)"
+            >
+              <i nz-icon nzType="delete" theme="outline"></i>
+            </button>
+          </td>
+        </tr>
       </tbody>
-  </nz-table>
-</div>
+    </nz-table>
+  </div>
 </nz-card>

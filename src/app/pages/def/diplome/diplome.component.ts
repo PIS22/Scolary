@@ -63,7 +63,7 @@ export class DiplomeComponent implements OnInit {
   create() {
     this.drawer
       .create<DiplomeFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une cannee scolaire',
+        nzTitle: 'Créer un diplôme',
         nzContent: DiplomeFormComponent,
         nzWidth: 500,
         nzData: {
@@ -97,7 +97,7 @@ export class DiplomeComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<DiplomeFormComponent, { valueIn: Diplome }>({
-        nzTitle: 'Modifier la cannee scolaire',
+        nzTitle: 'Modifier le diplôme',
         nzContent: DiplomeFormComponent,
         nzWidth: 500,
         nzData: {
@@ -117,7 +117,7 @@ export class DiplomeComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.libDiplome + '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer le diplôme de ' + _t72.libDiplome + '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',

@@ -1,1 +1,100 @@
-<p>paiement-form works!</p>
+<div class="main-content">
+  <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="code" nzRequired>Code</nz-form-label>
+      <nz-form-control
+        [nzSpan]="10"
+        [nzOffset]="2"
+        nzErrorTip="Le code de la classe est obligatoire"
+      >
+        <input nz-input formControlName="pay" nz-tooltip="Code de la classe" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="pay" nzRequired
+        >Payeur</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Le libellé de la classe est obligatoire"
+      >
+        <input
+          nz-input
+          formControlName="pay"
+          nz-tooltip="Nom du payeur"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="cai" nzRequired>Caisse</nz-form-label>
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Veuillez sélectionner la caisse"
+      >
+        <nz-select
+          formControlName="cai"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+        >
+          <nz-option
+            *ngFor="let item of caisses"
+            [nzValue]="item.id"
+            [nzLabel]="item.libCaisse"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="cai" nzRequired>Mode</nz-form-label>
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Veuillez sélectionner la mode de paiement"
+      >
+        <nz-select
+          formControlName="mop"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+        >
+          <nz-option
+            *ngFor="let item of modes"
+            [nzValue]="item.id"
+            [nzLabel]="item.libMode"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="ins" nzRequired>Bénéficiaire</nz-form-label>
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="2"
+        nzErrorTip="Veuillez sélectionner l'apprenant bénéficiaire du paiement"
+      >
+        <nz-select
+          formControlName="ins"
+          nzAllowClear="true"
+          nzSelectOnTab="true"
+          nzShowSearch="true"
+          nzAllowClear="true"
+          (ngModelChange)="getFees(dataForm.value.ins)"
+        >
+          <nz-option
+            *ngFor="let item of inscrits"
+            [nzValue]="item.numeroInscription"
+            [nzLabel]="item.numeroInscription+' '+item.eleve.nom+' '+item.classeDemandee"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+          Valider
+        </button>
+        <button nz-button (click)="close(null)">Annuler</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

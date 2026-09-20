@@ -32,9 +32,7 @@
       <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
         <div class="gutterRow" nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label [nzSpan]="2" nzFor="nom" nzRequired
-              >Nom</nz-form-label
-            >
+            <nz-form-label [nzSpan]="2" nzFor="nom" nzRequired>Nom</nz-form-label>
             <nz-form-control
               [nzSpan]="21"
               [nzOffset]="1"
@@ -51,13 +49,10 @@
         </div>
         <div class="gutterRow" nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="6" nzFor="npi" nzRequired
-              >N. P. I</nz-form-label
-            >
+            <nz-form-label [nzSpan]="6" nzFor="npi">N. P. I</nz-form-label>
             <nz-form-control
               [nzSpan]="16"
               [nzOffset]="2"
-              nzErrorTip="Le numéro personnel d'identification est obligatoire"
             >
               <input
                 nz-input
@@ -155,13 +150,12 @@
 </div>
         <div class="gutterRow" nz-col [nzSpan]="8">
         <nz-form-item>
-          <nz-form-label [nzSpan]="6" nzFor="tel" nzRequired
+          <nz-form-label [nzSpan]="6" nzFor="tel"
             >Téléphone</nz-form-label
           >
           <nz-form-control
             [nzSpan]="13"
             [nzOffset]="5"
-            nzErrorTip="Le numéro de téléphone est obligatoire"
           >
             <input
               nz-input
@@ -179,7 +173,7 @@
             [nzOffset]="2"
             nzErrorTip="L'adresse est obligatoire"
           >
-            <textarea
+            <textarea required="true"
               formControlName="adr"
               placeholder="Adresse précise de l'enseignant"
               rows="1"

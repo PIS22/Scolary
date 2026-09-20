@@ -16,6 +16,7 @@ import { MatiereFormComponent } from './matiere-form/matiere-form.component';
 
 export interface Matiere {
   id: number;
+  //optionnelle: boolean;
   codeMatiere: string;
   libMatiere: string;
 }
@@ -63,7 +64,7 @@ export class MatiereComponent implements OnInit {
   create() {
     this.drawer
       .create<MatiereFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une cannee scolaire',
+        nzTitle: 'Créer une matière',
         nzContent: MatiereFormComponent,
         nzWidth: 500,
         nzData: {
@@ -88,7 +89,7 @@ export class MatiereComponent implements OnInit {
     this.displayed = this.datas.filter((d) => {
       return (
         d.codeMatiere.includes(this.searchInput) ||
-        d.libMatiere.includes(this.searchInput) 
+        d.libMatiere.includes(this.searchInput)
       );
     });
   }
@@ -97,7 +98,7 @@ export class MatiereComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<MatiereFormComponent, { valueIn: Matiere }>({
-        nzTitle: 'Modifier la cannee scolaire',
+        nzTitle: 'Modifier la matière',
         nzContent: MatiereFormComponent,
         nzWidth: 500,
         nzData: {

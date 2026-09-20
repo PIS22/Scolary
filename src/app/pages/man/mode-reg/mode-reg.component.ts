@@ -13,7 +13,7 @@ import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ContexteService } from '../../../../services/contexte.service';
 import { ModeFormComponent } from './mode-form/mode-form.component';
-import { ModeReglementService } from '../../../../services/mode.service';
+import { CaisseService } from '../../../../services/caisse.service';
 
 export interface ModeReglement {
   id: number | null;
@@ -45,7 +45,7 @@ export class ModeRegComponent implements OnInit {
   displayed: ModeReglement[] = [];
 
   constructor(
-    private service: ModeReglementService,
+    private service: CaisseService,
     private msg: NzMessageService,
     private drawer: NzDrawerService,
     private cont: ContexteService,
@@ -53,7 +53,7 @@ export class ModeRegComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.getList().subscribe((res) => {
+    this.service.getModeList().subscribe((res) => {
       this.datas = res;
       this.displayed = this.datas;
     });
@@ -62,7 +62,7 @@ export class ModeRegComponent implements OnInit {
   create() {
     this.drawer
       .create<ModeFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une mode de règlement',
+        nzTitle: 'Créer un mode de règlement',
         nzContent: ModeFormComponent,
         nzWidth: 500,
         nzData: {
@@ -92,7 +92,7 @@ export class ModeRegComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<ModeFormComponent, { valueIn: ModeReglement }>({
-        nzTitle: 'Modifier la mode de règlement',
+        nzTitle: 'Modifier le mode de paiement',
         nzContent: ModeFormComponent,
 
         nzData: {

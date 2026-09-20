@@ -46,11 +46,11 @@ export class TypFormComponent  implements OnInit {
   submit() {
     let body = {
       id: this.dataForm.value.id,
-      codeMatiere: this.dataForm.value.code,
-      libMatiere: this.dataForm.value.libe,
+      code: this.dataForm.value.cod,
+      libelle: this.dataForm.value.lib,
     };
     if (body.id) {
-      this.service.edit(body).subscribe(
+      this.service.editType(body).subscribe(
         (res) => {
           if (res) this.close(res);
           else this.close(null);
@@ -62,7 +62,7 @@ export class TypFormComponent  implements OnInit {
         },
       );
     } else {
-      this.service.create(body).subscribe(
+      this.service.createType(body).subscribe(
         (res) => {
           console.log(res);
           if (res && res.id) this.close(res);
@@ -81,7 +81,8 @@ export class TypFormComponent  implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
-      libe: [this.valueIn ? this.valueIn.libMatiere : null, Validators.required],
+      cod: [this.valueIn ? this.valueIn.code : null, Validators.required],
+      lib: [this.valueIn ? this.valueIn.libelle : null, Validators.required],
     });
   }
   }

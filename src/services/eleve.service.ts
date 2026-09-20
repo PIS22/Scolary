@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Eleve } from '../app/pages/def/eleve/eleve.component';
 import { Inscription } from '../app/pages/inscription/inscription.component';
-import { AffectionEleve } from '../app/pages/oper/eleve-classe/eleve-classe.component';
+import { AffectationEleve } from '../app/pages/oper/eleve-classe/eleve-classe.component';
 
 
 @Injectable({
@@ -34,20 +34,28 @@ export class EleveService {
   }
 
 
-  getListEleveClasse(): Observable<AffectionEleve[]>{
-    return this.http.get<AffectionEleve[]>(this.source + 'eleve');
+  getListEleveClasse(): Observable<AffectationEleve[]>{
+    return this.http.get<AffectationEleve[]>(this.source + 'eleve');
   }
 
-  getOneEleveClasse(id: number): Observable<AffectionEleve>{
+  getListEleveForClasse(idClasse: number): Observable<AffectationEleve[]>{
+    return this.http.get<AffectationEleve[]>(this.source + 'affectationEleveByIdClasse/'+idClasse);
+  }
+
+  getOneEleveClasse(id: number): Observable<AffectationEleve>{
     return this.http.get<any>(this.source + 'eleve/'+id);
   }
 
-  createEleveClasse(body: any): Observable<AffectionEleve>{
-    return this.http.post<AffectionEleve>(this.source + 'eleve', body);
+  createEleveClasse(body: any): Observable<AffectationEleve>{
+    return this.http.post<AffectationEleve>(this.source + 'eleve', body);
   }
 
-  editEleveClasse(body: any): Observable<AffectionEleve>{
-    return this.http.put<AffectionEleve>(this.source + 'eleve/'+body.id, body);
+  createEleveClasseList(body: any): Observable<AffectationEleve[]>{
+    return this.http.post<AffectationEleve[]>(this.source + 'affectation/eleve', body);
+  }
+
+  editEleveClasse(body: any): Observable<AffectationEleve>{
+    return this.http.put<AffectationEleve>(this.source + 'eleve/'+body.id, body);
   }
 
   deleteEleveClasse(id: number):Observable<boolean>{

@@ -11,26 +11,29 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzToolTipModule, NzTooltipDirective } from 'ng-zorro-antd/tooltip';
 import { AnneeService } from '../../../../../services/annee.service';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { ContexteService } from '../../../../../services/contexte.service';
 import { Annee } from '../annee.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @Component({
   selector: 'app-annee-form',
   imports: [
-      NzFormModule,
-      NzCardModule,
-      NzInputModule,
-      NzButtonModule,
-      NzSpaceModule,
-      NzDatePickerModule,
-      FormsModule,
-      ReactiveFormsModule
-  ],
+    NzFormModule,
+    NzCardModule,
+    NzInputModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzDatePickerModule,
+    FormsModule,
+    NzSelectModule,
+    ReactiveFormsModule,
+    NzTooltipDirective
+],
   templateUrl: './annee-form.component.html',
   styleUrl: './annee-form.component.scss',
 })
@@ -59,6 +62,7 @@ export class AnneeFormComponent implements OnInit {
       libelle: this.dataForm.value.libe,
       dateDeb: this.dataForm.value.per[0],
       dateFin: this.dataForm.value.per[1],
+      etat: this.dataForm.value.etat,
       idEtablissement: this.cont.ecoleId,
     };
     if (body.id) {
@@ -76,12 +80,10 @@ export class AnneeFormComponent implements OnInit {
     } else {
       this.service.create(body).subscribe(
         (res) => {
-          console.log(res);
-          if (res && res.id) this.close(res);
-          else {
-            console.log(res);
+          if (res && res.id)
+            this.close(res);
+          else
             this.close(null);
-          }
         },
         (err) => {
           this.close(null);
@@ -99,6 +101,7 @@ export class AnneeFormComponent implements OnInit {
         this.valueIn ? [this.valueIn.debAnnee, this.valueIn.finAnnee] : [new Date(), new Date()],
         Validators.required,
       ],
+      etat: [this.valueIn ? this.valueIn.etat : null, Validators.required],
     });
   }
 }

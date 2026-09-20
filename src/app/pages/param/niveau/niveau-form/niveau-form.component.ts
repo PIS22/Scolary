@@ -28,7 +28,7 @@ import { ClasseService } from '../../../../../services/classe.service';
 export class NiveauFormComponent  implements OnInit {
   @Input() valueIn!: any;
   dataForm!: FormGroup;
-  
+
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +51,7 @@ export class NiveauFormComponent  implements OnInit {
       libelle: this.dataForm.value.libe,
       ordre: this.dataForm.value.ord,
     };
-    
+
     if (body.id) {
       this.service.editNiveau(body).subscribe(
         (res) => {
@@ -82,9 +82,9 @@ export class NiveauFormComponent  implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
-      code: [this.valueIn ? this.valueIn.codeNiveau : null, Validators.required],
-      libe: [this.valueIn ? this.valueIn.libNiveau : null, Validators.required],
-      ord: [this.valueIn ? this.valueIn.libNiveau : null, Validators.required],
+      code: [this.valueIn ? this.valueIn.code : null, Validators.required],
+      libe: [this.valueIn ? this.valueIn.libelle : null, Validators.required],
+      ord: [this.valueIn ? this.valueIn.ordre : null, Validators.required],
     });
   }
 

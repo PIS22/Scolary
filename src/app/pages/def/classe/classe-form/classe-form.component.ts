@@ -63,7 +63,7 @@ export class ClasseFormComponent implements OnInit {
       codeClasse: this.dataForm.value.code,
       libClasse: this.dataForm.value.libe,
       capacite: this.dataForm.value.cap,
-      idNiveau: this.dataForm.value.niv.id,
+      idNiveau: this.dataForm.value.niv,
       idAnneeScolaire: this.cont.anneeId,
       idEtablissement: this.cont.etsId,
     };
@@ -71,7 +71,7 @@ export class ClasseFormComponent implements OnInit {
       this.service.edit(body).subscribe(
         (res) => {
           if (res) this.close(res);
-          else this.close(null);  
+          else this.close(null);
         },
         (err) => {
           /*eau de coco 1L +ail triture+ citron+sel à laisser jusqu'au lendemain.
@@ -100,9 +100,8 @@ export class ClasseFormComponent implements OnInit {
       id: [this.valueIn ? this.valueIn.id : null],
       code: [this.valueIn ? this.valueIn.codeClasse : null],
       libe: [this.valueIn ? this.valueIn.libClasse : null],
-      niv: [this.valueIn ? this.valueIn.niveau : 0],
-      cap: [this.valueIn ? this.valueIn.cap : 0],
-      ide: [this.cont.ecoleId],
+      niv: [this.valueIn ? this.valueIn.niveau.id : 0],
+      cap: [this.valueIn ? this.valueIn.capacite : 0],
     });
   }
 }

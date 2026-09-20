@@ -19,33 +19,29 @@
   flex: 1; height: 100%;" nzBordered="true">
       <thead>
           <tr>
-              <th>Inscription</th>
-              <th>Date</th>
-              <th>N° Educmaster</th>
-              <th>Eleve</th>
-              <th>Sexe</th>
-              <th>Actions</th>
+              <th>Code</th>
+              <th>Libellé</th>
+              <th>Montant</th>
+              <th>Payé?</th>
           </tr>
       </thead>
       <tbody><!--/tbody> style="scroll-behavior: auto; overflow: hidden;"-->
-        @for (item of displayed; track item.inscription.id) {
-          <tr><!--/tr> *ngFor="let item of ordersListTable.data;  let i=index"-->
-              <td>{{item.inscription.numeroInscription}}</td>
-              <td>{{ item.inscription.dateInscription|date:'dd/MM/yyyy'}}</td>
-              <td>{{ item.inscription.eleve.educmaster }}</td>
-              <td>{{ item.inscription.eleve.nom }}</td>
-              <td>{{ item.inscription.eleve.sexe }}</td>
+        <!--@for (item of ordersListTable.data) {-->
+          <tr *ngFor="let item of ordersListTable.data;"><!--/tr>  let i=index"}-->
+              <td>{{item.frais.codeFrais}}</td>
+              <td>{{ item.frais.libelle}}</td>
+              <td>{{ item.frais.montant }}</td>
               <td class="text-md-right">
-                <nz-switch [(ngModel)]="item.select" [nzCheckedChildren]="valueIn.codeClasse" nzUnCheckedChildren="Non classé"></nz-switch>
+                <nz-switch [(ngModel)]="item.select" nzCheckedChildren="Encaisser ce frais" nzUnCheckedChildren="Frais non encaissé"></nz-switch>
                   <!--button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
                   (click)="considerChoice(item)">
                       <i nz-icon nzType="plus" theme="outline"></i>
                   </button-->
               </td>
           </tr>
-        }
+
       </tbody>
   </nz-table>
-  <button nz-button nzType="primary" (click)="dispatch()">Valider</button>
+  <button nz-button nzType="primary" (click)="valider()">Valider</button>
 </div>
 </nz-card>

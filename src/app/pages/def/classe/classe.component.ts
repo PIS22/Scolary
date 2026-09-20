@@ -16,8 +16,15 @@ import { ContexteService } from '../../../../services/contexte.service';
 import { Ecole, Site } from '../../etablissement/etablissement.component';
 import { Annee } from '../annee/annee.component';
 import { Niveau } from '../../param/niveau/niveau.component';
-import { ClasselComponent } from './classel/classel.component';
+import { ClasselComponent, Classement } from './classel/classel.component';
+import { EleveService } from '../../../../services/eleve.service';
+import { AffectationEleve } from '../../oper/eleve-classe/eleve-classe.component';
 
+interface enClasse{
+  expanded: boolean;
+  classe: Classe;
+  liste: AffectationEleve[];
+}
 export interface EtablissementAnneeScolaire{
   anneeScolaire: Annee;
   etablissement: Site
@@ -50,9 +57,34 @@ export interface Classe {
   styleUrl: './classe.component.scss',
 })
 export class ClasseComponent implements OnInit {
+  showMembers(_t60: enClasse) {
+    if(_t60.classe.id ){
+  _t60.expanded = !_t60.expanded;
+  if (_t60.expanded) {
+    this.datas.forEach(e => {
+      if (e.classe != _t60.classe)
+        e.expanded = false;
+    })
+    this.elser.getListEleveForClasse(_t60.classe.id ).subscribe(
+      (list) => {
+        _t60.liste = list;
+        console.log(_t60.liste);
+
+      }
+    )
+  }}
+}
+printInfo(_t57: Classe): string {
+  if (_t57)
+    return 'Imprimer la liste des enfnats de ' + _t57.codeClasse
+  else return '';
+}
+printList(_t57: Classe) {
+throw new Error('Method not implemented.');
+}
   searchInput: string = '';
-  datas: Classe[] = [];
-  displayed: Classe[] = [];
+  datas: enClasse[] = [];
+  displayed: enClasse[] = [];
 
   sizer = [5, 10, 15, 20]
 
@@ -60,13 +92,14 @@ export class ClasseComponent implements OnInit {
     private service: ClasseService,
     private msg: NzMessageService,
     private drawer: NzDrawerService,
+    private elser: EleveService,
     public cont: ContexteService,
     private modal: NzModalService,
   ) {}
 
   ngOnInit(): void {
     this.service.getForEtab(this.cont.etsId, this.cont.anneeId).subscribe((res) => {
-      this.datas = res;
+      this.datas = res.map(r=>{return {expanded:false, classe: r, liste: []}});
       this.displayed = this.datas;
     });
   }
@@ -76,7 +109,7 @@ export class ClasseComponent implements OnInit {
       .create<ClasseFormComponent, { valueIn: any }>({
         nzTitle: 'Créer une classe',
         nzContent: ClasseFormComponent,
-        nzWidth: 500,
+        nzWidth: 600,
         nzData: {
           valueIn: {
             id: null,
@@ -99,20 +132,20 @@ export class ClasseComponent implements OnInit {
   search() {
     this.displayed = this.datas.filter((d) => {
       return (
-        d.codeClasse.includes(this.searchInput) ||
-        d.libClasse.includes(this.searchInput) ||
-        d.capacite?.toString().includes(this.searchInput)
+        d.classe.codeClasse.includes(this.searchInput) ||
+        d.classe.libClasse.includes(this.searchInput) ||
+        d.classe.capacite?.toString().includes(this.searchInput)
       );
     });
   }
 
   edit(_t52: Classe) {
-    let ind = this.datas.findIndex((d) => d.id == _t52.id);
+    let ind = this.datas.findIndex((d) => d.classe.id == _t52.id);
     this.drawer
       .create<ClasseFormComponent, { valueIn: Classe }>({
         nzTitle: 'Modifier la classe',
         nzContent: ClasseFormComponent,
-
+        nzWidth: 500,
         nzData: {
           valueIn: _t52,
         },
@@ -130,7 +163,7 @@ export class ClasseComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.libClasse + '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer la classe de ' + _t72.libClasse + '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',
@@ -147,7 +180,12 @@ export class ClasseComponent implements OnInit {
       nzData: { valueIn: _t56 },
       nzTitle: "Ajout d'élève à la classe " + _t56.codeClasse,
       nzWidth: 900,
-    })
+    }).afterClose.subscribe(
+      (data) => {
+        console.log(data);
+
+      }
+    )
   }
 
 }

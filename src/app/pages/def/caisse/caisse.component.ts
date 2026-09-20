@@ -119,7 +119,7 @@ export class CaisseComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.libCaisse + '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer la caisse  ' + _t72.libCaisse + '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',

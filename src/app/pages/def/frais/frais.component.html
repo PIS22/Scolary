@@ -1,4 +1,12 @@
-<nz-card style="display: flex; flex-direction: column; flex: 1; height: 100%; overflow: hidden;">
+<nz-card
+  style="
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  "
+>
   <div class="section-header">
     <div class="search-data">
       <nz-input-group [nzPrefix]="prefixTemplate">
@@ -22,46 +30,210 @@
       </button>
     </div>
   </div>
-<div class="content-section">
-  <nz-table #ordersListTable [nzData]="displayed" style="overflow-y: auto; scroll-behavior: auto; display: flex; flex-direction: column;
-  flex: 1; height: 100%; ">
+  <div class="content-section">
+    <!--nz-table
+      #ordersListTable
+      [nzData]="displayed"
+      style="
+        overflow-y: auto;
+        scroll-behavior: auto;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+      "
+    >
       <thead>
-          <tr>
-              <th>Code</th>
-              <th>Libelle</th>
-              <th>Portée</th>
-              <th>Montant</th>
-              <th>Actions</th>
-          </tr>
+        <tr>
+          <th></th>
+          <th>Code</th>
+          <th>Libelle</th>
+          <th>Portée</th>
+          <th>Montant</th>
+          <th>Actions</th>
+        </tr>
       </thead>
-      <tbody style="scroll-behavior: auto; overflow: hidden;">
-          <tr *ngFor="let item of ordersListTable.data;  let i=index">
-              <td>{{item.codeFrais}}</td>
-              <td>
-                  {{ item.libelle}}
-              </td>
-              <td>
-                  {{ item.portee }}
-              </td>
-              <td>
-                  {{ item.montant }}
-              </td>
-              <td class="text-md-right">
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
-                  (click)="addChild(item)" *ngIf="item.portee!='STANDARD'">
-                      <i nz-icon nzType="plus" theme="outline"></i>
-                  </button>
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
-                  (click)="edit(item)">
-                      <i nz-icon nzType="edit" theme="outline"></i>
-                  </button>
-                  <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
-                  (click)="confirmDeleting(item)">
-                      <i nz-icon nzType="delete" theme="outline"></i>
-                  </button>
-              </td>
+      <tbody style="scroll-behavior: auto; overflow: hidden">
+        <ng-container *ngFor="let item of ordersListTable.data; let i = index">
+          <tr>
+            <td
+              [nzShowExpand]="item.porte === 'specifique'"
+              [nzExpand]="item.expand"
+              (nzExpandChange)="onExpandChange(item, $event)"
+            ></td>
+            <td>{{ item.frais.codeFrais }}</td>
+            <td>{{ item.frais.libelle }}</td>
+            <td>
+              <nz-tag [nzColor]="item.porte === 'standard' ? 'blue' : 'orange'">
+                {{ item.portee === "standard" ? "Standard" : "Spécifique" }}
+              </nz-tag>
+            </td>
+            <td>
+              {{
+                item.portee === "standard"
+                  ? (item.montant | currency: "XOF")
+                  : "—"
+              }}
+            </td>
+            <td>{{ item.frais.montant }}</td>
+            <td class="text-md-right"></td>
           </tr>
+          <tr [nzExpand]="item.expand">
+            <nz-table #innerTable [nzData]="item.fraisClasses ?? []" [nzLoading]="item.expand && !item.fraisClasses">
+              <thead>
+                <th>Classe</th>
+                <th>Montant</th>
+                <th>Actions</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let line of innerTable.data">
+                  <td>{{line.classe.libClasse}} </td>
+                  <td>{{line.montant}} </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </tr>
+          </ng-container
+        ><!--/tr> *ngFor="let item of .data;  let i=index"->
       </tbody>
-  </nz-table>
-</div>
+    </nz-table-->
+    <nz-table #basicTable [nzData]="displayed" [nzShowPagination]="true">
+      <thead>
+        <tr>
+          <th nzWidth="40px"></th>
+          <th>Code</th>
+          <th>Libellé</th>
+          <th>Portée</th>
+          <th>Montant</th>
+          <th>Type</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of basicTable.data">
+          <tr>
+            <td>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                [nz-tooltip] = "!data.expanded? 'Montrer le détail des montants par classe': 'Cacher le détail'"
+                (click)="onExpandChange(data)"
+                *ngIf="data.frais.portee == 'SPECIFIQUE'"
+              >
+                <i nz-icon *ngIf="!data.expanded" nzType="plus" theme="outline"></i>
+                <i nz-icon *ngIf="data.expanded" nzType="minus" theme="outline"></i>
+              </button>
+            </td>
+        <td>{{ data.frais.codeFrais }}</td>
+            <td>{{ data.frais.libelle }}</td>
+            <td><nz-tag [nzColor]="data.frais.portee === 'STANDARD' ? 'blue' : 'orange'">{{ data.frais.portee === 'STANDARD' ? 'STANDARD' : 'SPECIFIQUE'}}</nz-tag></td>
+            <td>{{data.frais.portee === 'STANDARD'? (data.frais.montant | currency: "XOF"): "—"}}</td>
+            <td>{{ data.frais.typeFrais.libTypeFrais }}</td>
+            <td>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Modifier"
+                (click)="addChild(data)"
+                *ngIf="data.portee != 'STANDARD'"
+              >
+                <i nz-icon nzType="plus" theme="outline"></i>
+              </button>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Modifier"
+                (click)="edit(data)"
+              >
+                <i nz-icon nzType="edit" theme="outline"></i>
+              </button>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Supprimer"
+                (click)="confirmDeleting(data)"
+              >
+                <i nz-icon nzType="delete" theme="outline"></i>
+              </button>
+            </td>
+
+
+          <tr [nzExpand]="data.expanded" *ngIf="data.expanded">
+            <nz-table
+              #innerTable
+              nzSize="small"
+              [nzData]="data.fraisClasses ?? []"
+              [nzShowPagination]="false"
+              [nzLoading]="data.expand && !data.fraisClasses"
+            >
+              <thead>
+                <tr>
+                  <th>Code Classe</th>
+                  <th>Libellé Classe</th>
+                  <th>Ordre</th>
+                  <th>Montant</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fc of innerTable.data">
+                  <td>{{ fc.classe.codeClasse }}</td>
+                  <td>{{ fc.classe.libClasse }}</td>
+                  <td>{{ fc.classe.niveau.ordre }}</td>
+                  <td>{{ fc.montant   | currency: "XOF" }}</td>
+            <td>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Modifier"
+                (click)="addChild(data)"
+                *ngIf="data.portee != 'STANDARD'"
+              >
+                <i nz-icon nzType="plus" theme="outline"></i>
+              </button>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Modifier"
+                (click)="edit(data)"
+              >
+                <i nz-icon nzType="edit" theme="outline"></i>
+              </button>
+              <button
+                class="m-r-5"
+                nz-button
+                nzType="default"
+                nzShape="circle"
+                nz-tooltip
+                nzTooltipTitle="Supprimer"
+                (click)="confirmDeleting(data)"
+              >
+                <i nz-icon nzType="delete" theme="outline"></i>
+              </button>
+            </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </div>
 </nz-card>

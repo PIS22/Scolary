@@ -21,6 +21,7 @@ import { TypeFrais } from '../../../param/type-frais/type-frais.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { CommonModule } from '@angular/common';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
   selector: 'app-frais-form',
@@ -35,7 +36,8 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
     FormsModule,
     ReactiveFormsModule,
     NzSelectModule,
-    NzGridModule
+    NzGridModule,
+    NzSwitchModule
   ],
   templateUrl: './frais-form.component.html',
   styleUrl: './frais-form.component.scss',
@@ -55,8 +57,6 @@ export class FraisFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.valueIn);
-
     this.service.getListTypeFrais().subscribe((res) => {
       if (res) {
         this.types = res;
@@ -65,7 +65,6 @@ export class FraisFormComponent implements OnInit {
     this.serv
       .getForEtab(this.cont.etsId, this.cont.anneeId)
       .subscribe((res) => {
-        console.log(res);
         this.classes = res;
       });
     this.initForm();
@@ -87,8 +86,6 @@ export class FraisFormComponent implements OnInit {
       montant:
         this.dataForm.value.por == 'SPECIFIQUE' ? 0 : this.dataForm.value.mtt,
     };
-    console.log(body);
-
     if (body.id) {
       this.service.editFrais(body).subscribe(
         (res) => {
@@ -104,12 +101,7 @@ export class FraisFormComponent implements OnInit {
     } else {
       this.service.createFrais(body).subscribe(
         (res) => {
-          console.log(res);
-          if (res && res.id) this.close(res);
-          else {
-            console.log(res);
-            this.close(null);
-          }
+          this.close(res);
         },
         (err) => {
           this.close(null);
@@ -121,7 +113,7 @@ export class FraisFormComponent implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
-      //cla: [this.valueIn ? this.valueIn.codeFrais : null, Validators.required],
+      obg: [this.valueIn ? this.valueIn.facultatif : true, Validators.required],
       typ: [this.valueIn && this.valueIn.typeFrais? this.valueIn.typeFrais.id : null, Validators.required],
       por: [this.valueIn ? this.valueIn.portee : null, Validators.required],
       mtt: [this.valueIn ? this.valueIn.montant : 0],

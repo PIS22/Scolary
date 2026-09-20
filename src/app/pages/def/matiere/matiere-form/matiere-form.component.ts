@@ -10,6 +10,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
   selector: 'app-matiere-form',
@@ -21,6 +22,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     NzSpaceModule,
     NzDatePickerModule,
     FormsModule,
+    NzSwitchModule,
     ReactiveFormsModule,
   ],
   templateUrl: './matiere-form.component.html',
@@ -47,6 +49,7 @@ export class MatiereFormComponent implements OnInit {
   submit() {
     let body = {
       id: this.dataForm.value.id,
+      //optionnelle: this.dataForm.value.opt,
       codeMatiere: this.dataForm.value.code,
       libMatiere: this.dataForm.value.libe,
     };
@@ -82,9 +85,10 @@ export class MatiereFormComponent implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
+      //opt: [this.valueIn? this.valueIn.optionnelle: false],
       code: [this.valueIn ? this.valueIn.codeMatiere : null, Validators.required],
       libe: [this.valueIn ? this.valueIn.libMatiere : null, Validators.required],
     });
   }
-  
+
 }

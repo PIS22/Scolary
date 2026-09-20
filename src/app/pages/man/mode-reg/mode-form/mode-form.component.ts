@@ -6,10 +6,10 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { ModeReglementService } from '../../../../../services/mode.service';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { ContexteService } from '../../../../../services/contexte.service';
 import { ModeReglement } from '../mode-reg.component';
+import { CaisseService } from '../../../../../services/caisse.service';
 
 @Component({
   selector: 'app-mode-form',
@@ -33,7 +33,7 @@ export class ModeFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private service: ModeReglementService,
+    private service: CaisseService,
     private mod: NzDrawerRef,
     private cont: ContexteService,
   ) {}
@@ -52,9 +52,9 @@ export class ModeFormComponent implements OnInit {
       idEtablissement: this.cont.etsId,
     };
     console.log(body);
-    
+
     if (body.id) {
-      this.service.edit(body).subscribe(
+      this.service.editMode(body).subscribe(
         (res) => {
           if (res) this.close(res);
           else this.close(null);
@@ -66,7 +66,7 @@ export class ModeFormComponent implements OnInit {
         },
       );
     } else {
-      this.service.create(body).subscribe(
+      this.service.createMode(body).subscribe(
         (res) => {
           console.log(res);
           if (res && res.id) this.close(res);
@@ -85,7 +85,7 @@ export class ModeFormComponent implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
-      libe: [this.valueIn ? this.valueIn.libClasse : null],
+      libe: [this.valueIn ? this.valueIn.libMode : null],
     });
   }
 

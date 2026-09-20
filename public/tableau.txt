@@ -1,0 +1,108 @@
+Bonne approche — un tableau expansible (master/detail) est exactement l'outil pour ça : une ligne par Frais, et si porte === 'specifique', un sous-tableau des FraisClasse associés en la dépliant. Si tu es toujours sur ng-zorro-antd (vu ton layout précédent), voici comment faire proprement avec nz-table.
+
+Le modèle de vue — j'étends légèrement Frais pour porter l'état d'expansion et les données chargées :
+
+typescript
+interface FraisRow extends Frais {
+  expand: boolean;
+  fraisClasses?: FraisClasse[]; // chargé à la demande (lazy) si porte === 'specifique'
+}
+
+Le composant :
+
+typescript
+@Component({
+  selector: 'app-frais-table',
+  templateUrl: './frais-table.component.html',
+})
+export class FraisTableComponent {
+  @Input() listOfFrais: FraisRow[] = [];
+
+  constructor(private fraisClasseService: FraisClasseService) {}
+
+  onExpandChange(data: FraisRow, expand: boolean): void {
+    data.expand = expand;
+
+    // Chargement paresseux : on ne va chercher les FraisClasse
+    // que la première fois qu'on déplie la ligne
+    if (expand && data.porte === 'specifique' && !data.fraisClasses) {
+      this.fraisClasseService.getByFraisId(data.id).subscribe(list => {
+        data.fraisClasses = list;
+      });
+    }
+  }
+}
+
+Le template :
+
+html
+<nz-table #basicTable [nzData]="listOfFrais" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th nzWidth="40px"></th>
+      <th>Code</th>
+      <th>Libellé</th>
+      <th>Portée</th>
+      <th>Montant</th>
+      <th>Type</th>
+      <th>Établissement</th>
+      <th>Année scolaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of basicTable.data">
+      <tr>
+        <td
+          [nzShowExpand]="data.porte === 'specifique'"
+          [nzExpand]="data.expand"
+          (nzExpandChange)="onExpandChange(data, $event)"
+        ></td>
+        <td>{{ data.codeFrais }}</td>
+        <td>{{ data.libelle }}</td>
+        <td>
+          <nz-tag [nzColor]="data.porte === 'standard' ? 'blue' : 'orange'">
+            {{ data.porte === 'standard' ? 'Standard' : 'Spécifique' }}
+          </nz-tag>
+        </td>
+        <td>
+          {{ data.porte === 'standard' ? (data.montant | currency:'XOF') : '—' }}
+        </td>
+        <td>{{ data.typeFrais.libelle }}</td>
+        <td>{{ data.etablissement.libelle }}</td>
+        <td>{{ data.anneeScolaire.libelle }}</td>
+      </tr>
+
+      <tr [nzExpand]="data.expand">
+        <nz-table
+          #innerTable
+          nzSize="small"
+          [nzData]="data.fraisClasses ?? []"
+          [nzShowPagination]="false"
+          [nzLoading]="data.expand && !data.fraisClasses"
+        >
+          <thead>
+            <tr>
+              <th>Classe</th>
+              <th>Montant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fc of innerTable.data">
+              <td>{{ fc.classe.libelle }}</td>
+              <td>{{ fc.montant | currency:'XOF' }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>
+
+Quelques points de conception à noter :
+
+[nzShowExpand]="data.porte === 'specifique'" — c'est ça qui masque la flèche d'expansion pour les frais standards : logique, puisqu'il n'y a rien à détailler dans ce cas.
+Montant affiché en colonne principale : je mets — (ou tu peux mettre "voir détail") quand la portée est spécifique, puisque le montant global n'a pas de sens — chaque classe a le sien dans le sous-tableau.
+Chargement paresseux (fraisClasses?) : si tes FraisClasse ne sont pas déjà chargés avec chaque Frais, ça évite de tout récupérer au chargement de la page — seulement quand l'utilisateur déplie réellement une ligne.
+nzLoading sur le tableau imbriqué te donne un spinner pendant l'appel réseau, sans travail supplémentaire.
+
+Si au contraire tes FraisClasse sont déjà tous chargés en mémoire (pas d'appel HTTP à la demande), dis-le-moi — je simplifierais en enlevant le service et onExpandChange ferait juste data.expand = expand en groupant les FraisClasse par frais.id en amont avec un Map.

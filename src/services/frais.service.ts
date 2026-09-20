@@ -64,6 +64,10 @@ export class FraisService {
     return this.http.get<FraisClasse>(this.source + 'fraisClasse/' +id);
   }
 
+  createListe(body: any): Observable<FraisClasse[]>{
+    return this.http.post<FraisClasse[]>(this.source + 'listeFraisClasse', body);
+  }
+
   create(body: any): Observable<FraisClasse>{
     return this.http.post<FraisClasse>(this.source + 'fraisClasse', body);
   }

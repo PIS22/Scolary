@@ -1,1 +1,41 @@
-<p>typ-form works!</p>
+<div class="main-content">
+    <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzFor="code" nzRequired>Code</nz-form-label>
+        <nz-form-control
+          [nzSpan]="10"
+          [nzOffset]="2"
+          nzErrorTip="Le code de du type d'évaluation est obligatoire"
+        >
+          <input
+            nz-input
+            formControlName="cod"
+            nz-tooltip="Code du type d'évaluation la classe"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" nzFor="lib" nzRequired>Libellé</nz-form-label>
+        <nz-form-control
+          [nzSpan]="19"
+          [nzOffset]="2"
+          nzErrorTip="Le libellé du type d'évaluation est obligatoire"
+        >
+          <input
+            nz-input
+            formControlName="lib"
+            nz-tooltip="Libellé du type d'évaluation"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nzAlign="middle" nzJustify="center">
+          <nz-form-control>
+            <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+              Valider
+            </button>
+            <button nz-button (click)="close(null)">Annuler</button>
+          </nz-form-control>
+      </nz-form-item>
+    </form>
+</div>
+

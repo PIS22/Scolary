@@ -44,6 +44,10 @@ export class EnseignantService {
     return this.http.post<EnseignerClasse>(this.source + 'enseignement', body);
   }
 
+  assignClasses(body: any): Observable<EnseignerClasse[]>{
+    return this.http.post<EnseignerClasse[]>(this.source + 'enseignement/list', body);
+  }
+
   editEnClasse(body: any): Observable<EnseignerClasse>{
     return this.http.put<EnseignerClasse>(this.source + 'enseignement/'+body.id, body);
   }

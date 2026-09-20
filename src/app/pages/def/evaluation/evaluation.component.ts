@@ -18,21 +18,21 @@ import { EvaluationFormComponent } from './evaluation-form/evaluation-form.compo
 @Component({
   selector: 'app-evaluation',
   imports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
-      NzInputModule,
-      NzIconModule,
-      NzCardModule,
-      NzInputModule,
-      NzTableModule,
-      NzButtonModule,
-      NzToolTipModule,
-      NzModalModule,
-    NzDrawerModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzInputModule,
+    NzIconModule,
+    NzCardModule,
+    NzInputModule,
+    NzTableModule,
+    NzButtonModule,
+    NzToolTipModule,
+    NzModalModule,
+    NzDrawerModule,
   ],
   templateUrl: './evaluation.component.html',
-  styleUrl: './evaluation.component.scss'
+  styleUrl: './evaluation.component.scss',
 })
 export class EvaluationComponent implements OnInit {
   searchInput: string = '';
@@ -82,11 +82,11 @@ export class EvaluationComponent implements OnInit {
   search() {
     this.displayed = this.datas.filter((d) => {
       return (
-        d.libelle.includes(this.searchInput)||
-        d.periode.libelle.includes(this.searchInput)||
+        d.libelle.includes(this.searchInput) ||
+        d.periode.libelle.includes(this.searchInput) ||
         d.dateDeb.toLocaleDateString().includes(this.searchInput) ||
         d.dateFin.toLocaleDateString().includes(this.searchInput) ||
-        d.typeEval.libTypeEva.includes(this.searchInput)
+        d.typeEval.libelle.includes(this.searchInput)
       );
     });
   }
@@ -94,8 +94,7 @@ export class EvaluationComponent implements OnInit {
   edit(_t52: Evaluation) {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
-      .create<EvaluationFormComponent
-        , { valueIn: Evaluation }>({
+      .create<EvaluationFormComponent, { valueIn: Evaluation }>({
         nzTitle: 'Modifier la cannee scolaire',
         nzContent: EvaluationFormComponent,
         nzWidth: 500,
@@ -124,15 +123,18 @@ export class EvaluationComponent implements OnInit {
     });
   }
   delete(_t72: Evaluation) {
-    this.service.delete(_t72.id).subscribe(
-      (res) => {
-        console.log(res);
-        if (res)
-          this.datas.splice(this.datas.findIndex(d => d.id == _t72.id), 1);
-        this.displayed.splice(this.displayed.findIndex(d=>d.id==_t72.id), 1);
-        this.displayed=[...this.displayed]
-      }
-    );
+    this.service.delete(_t72.id).subscribe((res) => {
+      console.log(res);
+      if (res)
+        this.datas.splice(
+          this.datas.findIndex((d) => d.id == _t72.id),
+          1,
+        );
+      this.displayed.splice(
+        this.displayed.findIndex((d) => d.id == _t72.id),
+        1,
+      );
+      this.displayed = [...this.displayed];
+    });
   }
-
 }

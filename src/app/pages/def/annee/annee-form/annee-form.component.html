@@ -43,6 +43,17 @@
         ></nz-range-picker>
       </nz-form-control>
     </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" nzFor="eta" nzRequired>Etat</nz-form-label>
+      <nz-form-control>
+        <nz-select nzAllowClear="true" nzAutoClearSearchValue="true" nz-tooltip="Etat de l'année scolaire" formControlName="etat">
+          <nz-option nzTitle="PREPARATION" nzLabel="PREPARATION"></nz-option>
+          <nz-option nzValue="EN_COURS" nzLabel="EN_COURS"></nz-option>
+          <nz-option nzValue="TERMINEE" nzLabel="TERMINEE"></nz-option>
+          <nz-option nzValue="ARCHIVEE" nzLabel="ARCHIVEE"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
     <nz-form-item nzAlign="middle" nzJustify="center">
       <nz-form-control>
         <button nz-button nzType="primary" [disabled]="dataForm.invalid">

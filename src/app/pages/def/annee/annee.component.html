@@ -28,7 +28,6 @@
         nz-button
         nzType="primary"
         (click)="create()"
-        *ngIf="activeAbsente()"
       >
         <i nz-icon nzType="file-excel" theme="outline"></i>
         <span>Nouveau</span>
@@ -71,7 +70,7 @@
             {{ item.dateFin | date: "dd/MM/YYYY" }}
           </td>
           <td>
-            {{ item.active ? "Active" : "Passée" }}
+            {{ item.etat}}
           </td>
           <td class="text-md-right">
             <button

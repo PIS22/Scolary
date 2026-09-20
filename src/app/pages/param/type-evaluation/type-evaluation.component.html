@@ -27,6 +27,7 @@
   flex: 1; height: 100%; ">
       <thead>
           <tr>
+              <th>Code</th>
               <th>libellé</th>
               <th>Actions</th>
           </tr>
@@ -34,7 +35,10 @@
       <tbody style="scroll-behavior: auto; overflow: hidden;">
           <tr *ngFor="let item of ordersListTable.data;  let i=index">
               <td>
-                  {{ item.libTypeEva }}
+                  {{ item.code }}
+              </td>
+              <td>
+                  {{ item.libelle }}
               </td>
               <td class="text-md-right">
                   <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"

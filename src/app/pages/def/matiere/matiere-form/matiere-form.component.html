@@ -1,5 +1,10 @@
 <div class="main-content">
   <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+    <!--nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <nz-switch formControlName="opt" nzCheckedChildren="Matière optionnelle" nzUnCheckedChildren="Matière obligatoire">
+      </nz-switch></nz-form-control>
+    </nz-form-item-->
     <nz-form-item>
       <nz-form-label [nzSpan]="3" nzFor="code" nzRequired>Code</nz-form-label>
       <nz-form-control

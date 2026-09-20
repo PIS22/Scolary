@@ -1,1 +1,77 @@
-<p>frais-class-form works!</p>
+<nz-card
+  style="
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  "
+>
+  <div class="section-header">
+    <nz-input-group [nzPrefix]="prefixTemplate">
+      <input
+        type="text"
+        placeholder="Portion de text recherché"
+        nz-input
+        nz-tooltip="Critères de recherche"
+        [(ngModel)]="searchInput"
+        (ngModelChange)="search()"
+      />
+    </nz-input-group>
+    <ng-template #prefixTemplate>
+      <i nz-icon nzType="search" class="opacity-05"></i>
+    </ng-template>
+  </div>
+  <div class="content-section">
+    <nz-table
+      #ordersListTable
+      [nzData]="displayed"
+      style="
+        overflow-y: auto;
+        scroll-behavior: auto;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+      "
+      nzBordered="true"
+    >
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Libellé</th>
+          <th>Niveau</th>
+          <th>Montant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--/tbody> style="scroll-behavior: auto; overflow: hidden;"-->
+        <tr *ngFor="let item of ordersListTable.data; let i = index" -->
+          <td>{{ item.classe.codeClasse }}</td>
+          <td>{{ item.classe.libClasse }}</td>
+          <td>{{ item.classe.niveau.ordre }}</td>
+          <td>
+            <nz-input-group [nzPrefix]="prefixTemplate">
+              <input
+                type="text"
+                placeholder="Portion de text recherché"
+                nz-input
+                nz-tooltip="Critères de recherche"
+                [(ngModel)]="item.montant"
+                (blur)="mergeData(item)"
+              />
+            </nz-input-group>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <button
+    nz-button
+    nzType="primary"
+    [disabled]="montantRenseigne()"
+    (click)="saveDatas()"
+  >
+    Valider les frais
+  </button>
+</nz-card>

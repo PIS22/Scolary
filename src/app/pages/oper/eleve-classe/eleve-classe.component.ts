@@ -16,7 +16,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ContexteService } from '../../../../services/contexte.service';
 import { FormComponent } from './form/form.component';
 
-export interface AffectionEleve {
+export interface AffectationEleve {
   id: number;
   eleve: Eleve;
   classe: Classe;
@@ -44,8 +44,8 @@ export interface AffectionEleve {
 })
 export class EleveClasseComponent implements OnInit {
   searchInput: string = '';
-  datas: AffectionEleve[] = [];
-  displayed: AffectionEleve[] = [];
+  datas: AffectationEleve[] = [];
+  displayed: AffectationEleve[] = [];
 
   constructor(
     private service: EleveService,
@@ -96,10 +96,10 @@ export class EleveClasseComponent implements OnInit {
     });
   }
 
-  edit(_t52: AffectionEleve) {
+  edit(_t52: AffectationEleve) {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
-      .create<FormComponent, { valueIn: AffectionEleve }>({
+      .create<FormComponent, { valueIn: AffectationEleve }>({
         nzTitle: 'Modifier l\'affectation d\'élève',
         nzContent: FormComponent,
         nzWidth: 500,
@@ -116,7 +116,7 @@ export class EleveClasseComponent implements OnInit {
       });
   }
 
-  confirmDeleting(_t72: AffectionEleve) {
+  confirmDeleting(_t72: AffectationEleve) {
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
@@ -127,7 +127,7 @@ export class EleveClasseComponent implements OnInit {
       nzOnOk: () => this.delete(_t72),
     });
   }
-  delete(_t72: AffectionEleve) {
+  delete(_t72: AffectationEleve) {
     this.service.delete(_t72.id).subscribe((res) => {
       console.log(res);
       if (res)
