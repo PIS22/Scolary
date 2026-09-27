@@ -15,8 +15,8 @@ import { TypFormComponent } from './typ-form/typ-form.component';
 import { EvalService } from '../../../../services/eval.service';
 import { Eleve } from '../../def/eleve/eleve.component';
 import { Matiere } from '../../def/matiere/matiere.component';
-import { AffectationEleve } from '../../oper/eleve-classe/eleve-classe.component';
 import { Periode } from '../../welcome/welcome.component';
+import { AffectationEleve } from '../../def/classe/classe.component';
 
 export interface TypeEval {
   id: number;

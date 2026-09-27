@@ -184,7 +184,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="3" nzFor="gra" nzRequired>Grade</nz-form-label>
+      <nz-form-label [nzSpan]="3" nzFor="gra">Grade</nz-form-label>
       <nz-form-control
         [nzSpan]="10"
         [nzOffset]="5"
@@ -203,7 +203,6 @@
         nzErrorTip="La date de prise de service est obligatoire"
       >
         <nz-date-picker
-          nzMode=""
           formControlName="das"
           placeholder="Date de prise de service"
           nzFormat="dd/MM/YYYY"
@@ -223,7 +222,7 @@
     </nz-form-item>
     <nz-form-item nzAlign="middle" nzJustify="center">
       <nz-form-control>
-        <button nz-button nzType="primary" [disabled]="!dataForm.invalid">
+        <button nz-button nzType="primary" [disabled]="dataForm.invalid">
           Valider
         </button>
         <button nz-button type="button" nzType="dashed" (click)="close(null)">

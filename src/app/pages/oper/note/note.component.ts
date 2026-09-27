@@ -82,7 +82,7 @@ export class NoteComponent implements OnInit {
   search() {
     this.displayed = this.datas.filter((d) => {
       return (
-        d.affectationEleve.eleve.nom.includes(this.searchInput) ||
+        d.affectationEleve.inscription.eleve.nom.includes(this.searchInput) ||
         d.matiere.libMatiere.includes(this.searchInput) ||
         d.note.toString().includes(this.searchInput)
       );

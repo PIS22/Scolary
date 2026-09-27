@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -18,8 +18,14 @@ import { Annee } from '../annee/annee.component';
 import { Niveau } from '../../param/niveau/niveau.component';
 import { ClasselComponent, Classement } from './classel/classel.component';
 import { EleveService } from '../../../../services/eleve.service';
-import { AffectationEleve } from '../../oper/eleve-classe/eleve-classe.component';
+import { Inscription } from '../../inscription/inscription.component';
 
+export interface AffectationEleve {
+  id: number;
+  inscription: Inscription;
+  classe: Classe;
+  dateAffectation: Date;
+}
 interface enClasse{
   expanded: boolean;
   classe: Classe;
@@ -51,7 +57,7 @@ export interface Classe {
     NzButtonModule,
     NzToolTipModule,
     NzModalModule,
-    NzDrawerModule,
+    NzDrawerModule, DatePipe
   ],
   templateUrl: './classe.component.html',
   styleUrl: './classe.component.scss',
@@ -112,7 +118,7 @@ throw new Error('Method not implemented.');
         nzWidth: 600,
         nzData: {
           valueIn: {
-            id: null,
+            id: null,///0196123241     MR NAMBOY
             codeClasse: '',
             libClasse: '',
             capacite: 0,
@@ -123,7 +129,7 @@ throw new Error('Method not implemented.');
       .afterClose.subscribe((data) => {
         console.log(data);
         if (data) {
-              this.datas.push(data);
+              this.datas.push({expanded: false, classe:data, liste: []});
           this.displayed = this.datas;
           this.displayed=[...this.datas]
             }
@@ -170,9 +176,36 @@ throw new Error('Method not implemented.');
       nzOnOk: () => this.delete(_t72),
     });
   }
+
   delete(_t72: Classe) {
     throw new Error('Method not implemented.');
   }
+
+  confirmDeletEleveClasse(_t72: AffectationEleve) {
+    this.modal.confirm({
+      nzTitle: 'Confirmation de suppression',
+      nzContent:
+        '<i>Etes-vous sûr de vouloir supprimer ' + _t72.inscription.eleve.nom + ' dec la classe de ' + _t72.classe.libClasse + '?</i>',
+      nzCancelText: 'Non',
+      nzOnCancel: () => this.msg.info('Action annulée'),
+      nzOkText: 'Oui',
+      nzOnOk: () => this.deleteEleveClasse(_t72),
+    });
+  }
+
+  deleteEleveClasse(_t72: AffectationEleve) {
+    this.elser.deleteEleveClasse(_t72.id).subscribe(
+      (res) => {
+        console.log(res);
+      }
+    )
+  }
+editAffectation(_t166: AffectationEleve) {
+throw new Error('Method not implemented.');
+}
+finirAffectation(_t166: AffectationEleve) {
+throw new Error('Method not implemented.');
+}
 
   popaddingStudent(_t56: Classe) {
     this.drawer.create<ClasselComponent, { valueIn: Classe }>({

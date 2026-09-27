@@ -65,7 +65,7 @@ export class NiveauComponent implements OnInit {
   create() {
     this.drawer
       .create<NiveauFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une cannee scolaire',
+        nzTitle: 'Créer un niveau',
         nzContent: NiveauFormComponent,
         nzWidth: 500,
         nzData: {
@@ -99,7 +99,7 @@ export class NiveauComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<NiveauFormComponent, { valueIn: Niveau }>({
-        nzTitle: 'Modifier la cannee scolaire',
+        nzTitle: 'Modifier le niveau',
         nzContent: NiveauFormComponent,
         nzWidth: 500,
         nzData: {
@@ -126,7 +126,7 @@ export class NiveauComponent implements OnInit {
       nzOnOk: () => this.delete(_t72),
     });
   }
-  
+
   delete(_t72: Niveau) {
     this.service.deleteNiveau(_t72.id).subscribe((res) => {
       console.log(res);

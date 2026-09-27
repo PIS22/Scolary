@@ -83,6 +83,7 @@ export class FraisFormComponent implements OnInit {
       idAnneeScolaire: this.cont.anneeId,
       idTypeFrais: this.dataForm.value.typ,
       portee: this.dataForm.value.por,
+      obligatoire: this.dataForm.value.obg,
       montant:
         this.dataForm.value.por == 'SPECIFIQUE' ? 0 : this.dataForm.value.mtt,
     };
@@ -113,7 +114,7 @@ export class FraisFormComponent implements OnInit {
   initForm() {
     this.dataForm = this.fb.group({
       id: [this.valueIn ? this.valueIn.id : null],
-      obg: [this.valueIn ? this.valueIn.facultatif : true, Validators.required],
+      obg: [this.valueIn ? this.valueIn.obligatoire : true, Validators.required],
       typ: [this.valueIn && this.valueIn.typeFrais? this.valueIn.typeFrais.id : null, Validators.required],
       por: [this.valueIn ? this.valueIn.portee : null, Validators.required],
       mtt: [this.valueIn ? this.valueIn.montant : 0],

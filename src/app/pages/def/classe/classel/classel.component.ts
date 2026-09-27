@@ -76,6 +76,7 @@ export class ClasselComponent implements OnInit {
           courante: true,
         };
       });
+    console.log(body);
     this.service.createEleveClasseList(body).subscribe(
       (res) => {
         if (res.length > 0) this.drawer.close(res);

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Eleve } from '../app/pages/def/eleve/eleve.component';
 import { Inscription } from '../app/pages/inscription/inscription.component';
-import { AffectationEleve } from '../app/pages/oper/eleve-classe/eleve-classe.component';
+import { AffectationEleve } from '../app/pages/def/classe/classe.component';
 
 
 @Injectable({

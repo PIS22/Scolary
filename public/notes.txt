@@ -1,5 +1,5 @@
-1-Ajouter l'attribut optionnel de type booléen dans la classe TypeFrais
-2-Remettre l'attribut active de type booléen dans la classeAnneeScolaire
-3-Permettre la création d'une liste de FraisClasse (Mettre à disposition une URL qui pour chaque élément d'une liste de FraisClasseRequestDto et
+1- Pour affecter les éleve à une classe, c'est une liste de EleveClass Dto qui sra envoyé
+2- Revoir la contrainte sur l'unicité du numéro npi de l'enseignant pendant la mise à jour
+3- Permettre la création d'une liste de FraisClasse (Mettre à disposition une URL qui pour chaque élément d'une liste de FraisClasseRequestDto et
 crée un FraisClassepuis renvoie la liste des FraisClasses créés)
-4-
+4- Revoir la contrainte sur l'unicité du idFrais et idClase lord de l,edition defraisClasse

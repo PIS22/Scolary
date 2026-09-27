@@ -140,7 +140,7 @@ export class AnneeComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<AnneeFormComponent, { valueIn: Annee }>({
-        nzTitle: 'Modifier la année scolaire',
+        nzTitle: 'Modifier l\'année scolaire',
         nzContent: AnneeFormComponent,
         nzWidth: 500,
         nzData: {

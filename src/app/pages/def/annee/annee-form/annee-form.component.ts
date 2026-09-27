@@ -65,6 +65,7 @@ export class AnneeFormComponent implements OnInit {
       etat: this.dataForm.value.etat,
       idEtablissement: this.cont.ecoleId,
     };
+    console.log(body)
     if (body.id) {
       this.service.edit(body).subscribe(
         (res) => {
@@ -98,7 +99,7 @@ export class AnneeFormComponent implements OnInit {
       code: [this.valueIn ? this.valueIn.code : null, Validators.required],
       libe: [this.valueIn ? this.valueIn.libelle : null, Validators.required],
       per: [
-        this.valueIn ? [this.valueIn.debAnnee, this.valueIn.finAnnee] : [new Date(), new Date()],
+        this.valueIn ? [this.valueIn.debAnnee, this.valueIn.finAnnee] : [null, null],
         Validators.required,
       ],
       etat: [this.valueIn ? this.valueIn.etat : null, Validators.required],

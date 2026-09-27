@@ -10,18 +10,12 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Eleve } from '../../def/eleve/eleve.component';
-import { Classe } from '../../def/classe/classe.component';
+import { AffectationEleve, Classe } from '../../def/classe/classe.component';
 import { EleveService } from '../../../../services/eleve.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ContexteService } from '../../../../services/contexte.service';
 import { FormComponent } from './form/form.component';
 
-export interface AffectationEleve {
-  id: number;
-  eleve: Eleve;
-  classe: Classe;
-  dateAffectation: Date;
-}
 
 @Component({
   selector: 'app-eleve-classe',
@@ -91,7 +85,7 @@ export class EleveClasseComponent implements OnInit {
     this.displayed = this.datas.filter((d) => {
       return (
         d.classe.libClasse.includes(this.searchInput) ||
-        d.eleve.nom.includes(this.searchInput)
+        d.inscription.eleve.nom.includes(this.searchInput)
       );
     });
   }

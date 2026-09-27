@@ -13,7 +13,7 @@ import { ClasseService } from '../../../../../services/classe.service';
 import { CaisseService } from '../../../../../services/caisse.service';
 import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { ContexteService } from '../../../../../services/contexte.service';
-import { Paiement } from '../paiement.component';
+import { Detail, Paiement } from '../paiement.component';
 import { EleveService } from '../../../../../services/eleve.service';
 import { Inscription } from '../../../inscription/inscription.component';
 import { Frais } from '../../../def/frais/frais.component';
@@ -21,6 +21,9 @@ import { ɵNzSiderTriggerComponent } from "ng-zorro-antd/layout";
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { FraisSelectComponent } from '../../../def/frais/frais-select/frais-select.component';
 import { config } from 'rxjs';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-paiement-form',
@@ -28,13 +31,16 @@ import { config } from 'rxjs';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NzDatePickerModule,
     NzModalModule,
     NzInputModule,
     NzButtonModule,
     NzCardModule,
     NzToolTipModule,
     NzFormModule,
+    NzGridModule,
     NzSelectModule,
+    NzTableModule
 ],
   templateUrl: './paiement-form.component.html',
   styleUrl: './paiement-form.component.scss'
@@ -45,7 +51,8 @@ export class PaiementFormComponent  implements OnInit {
   caisses: Caisse[] = [];
   modes: ModeReglement[] = [];
   inscrits: Inscription[] = [];
-  frais: Frais[] = [];
+  fraisDus: Frais[] = [];
+  displayed: Frais[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -75,8 +82,8 @@ export class PaiementFormComponent  implements OnInit {
 
   submit() {
     let body = {
-      id: this.dataForm.value.id,
-      codeClasse: this.dataForm.value.code,
+      id: this.dataForm.value.id?this.dataForm.value.id: null,
+      dat: this.dataForm.value.dat,
       libClasse: this.dataForm.value.libe,
       capacite: this.dataForm.value.cap,
       idNiveau: this.dataForm.value.niv,
@@ -111,16 +118,17 @@ export class PaiementFormComponent  implements OnInit {
     }
   }
 
-  getFees(obj: any) {console.log(obj);
+  getFees(obj: any) {
     this.mod.create<FraisSelectComponent, { inputData: string }>({
       nzData: { inputData: obj },
       nzContent: FraisSelectComponent,
       nzTitle: 'Choix des fais',
       nzWidth: 650,
-      nzPlacement:'left'
+      nzPlacement:'bottom'
     }).afterClose.subscribe(
       (data) => {
-        console.log(data);
+        this.fraisDus = data;
+        this.displayed = [...this.fraisDus];
       }
     )
   }

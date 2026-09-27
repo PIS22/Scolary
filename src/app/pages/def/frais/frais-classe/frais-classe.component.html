@@ -1,0 +1,62 @@
+<div class="main-content">
+  <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+ <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="fra" nzRequired
+        >Frais</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="1"
+        nzErrorTip="Veuillez sélectionner le type de frais"
+      >
+        <nz-select formControlName="cla" [nzDisabled]="valueIn">
+          <nz-option
+            *ngFor="let item of frais"
+            [nzLabel]="item.libelle"
+            [nzValue]="item.id"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+ <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="cla" nzRequired
+        >Classe</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="1"
+        nzErrorTip="Veuillez sélectionner le type de frais"
+      >
+        <nz-select formControlName="cla">
+          <nz-option
+            *ngFor="let item of classes"
+            [nzLabel]="item.libClasse"
+            [nzValue]="item.id"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+ <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="mtt" nzRequired
+        >Montant</nz-form-label
+      >
+      <nz-form-control
+        [nzSpan]="19"
+        [nzOffset]="1"
+        nzErrorTip="Veuillez sélectionner le type de frais"
+      >
+        <input nz-input formControlName="mtt" type="number"/>
+      </nz-form-control>
+    </nz-form-item>
+    <div>
+    <nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <button nz-button nzType="primary" [disabled]="dataForm.invalid">
+          Valider
+        </button>
+        <button nz-button (click)="close(null)">Annuler</button>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  </form>
+</div>

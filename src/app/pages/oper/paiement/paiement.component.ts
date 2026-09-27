@@ -30,6 +30,13 @@ export interface Paiement {
   modeReglement: ModeReglement;
   caisse: Caisse;
   inscription: Inscription;
+
+}
+
+export interface Detail {
+  id: number;
+  montant: number;
+  frais: any;
 }
 @Component({
   selector: 'app-paiement',

@@ -77,7 +77,7 @@ export class FraisService {
   }
 
   delete(id: number): Observable<boolean>{
-    return this.http.delete<boolean>(this.source + 'faisClasse/' +id);
+    return this.http.delete<boolean>(this.source + 'fraisClasse/' +id);
   }
 
   getListTrancheFrais(): Observable<Tranche[]>{

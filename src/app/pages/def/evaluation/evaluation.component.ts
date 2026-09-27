@@ -58,7 +58,7 @@ export class EvaluationComponent implements OnInit {
   create() {
     this.drawer
       .create<EvaluationFormComponent, { valueIn: any }>({
-        nzTitle: 'Créer une cannee scolaire',
+        nzTitle: 'Créer une évaluation',
         nzContent: EvaluationFormComponent,
         nzWidth: 500,
         nzData: {
@@ -95,7 +95,7 @@ export class EvaluationComponent implements OnInit {
     let ind = this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<EvaluationFormComponent, { valueIn: Evaluation }>({
-        nzTitle: 'Modifier la cannee scolaire',
+        nzTitle: 'Modifier l\'évaluation',
         nzContent: EvaluationFormComponent,
         nzWidth: 500,
         nzData: {

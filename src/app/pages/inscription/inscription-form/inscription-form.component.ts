@@ -249,7 +249,7 @@ export class InscriptionFormComponent implements OnInit {
         Validators.required,
       ],
       telp: [
-        this.valueIn ? this.valueIn.eleve.telephonePere : null,
+        this.valueIn ? this.valueIn.eleve.telPere : null,
         Validators.required,
       ],
       nomm: [
@@ -261,7 +261,7 @@ export class InscriptionFormComponent implements OnInit {
         Validators.required,
       ],
       telm: [
-        this.valueIn ? this.valueIn.eleve.telephonneMere : null,
+        this.valueIn ? this.valueIn.eleve.telMere : null,
         Validators.required,
       ],
       typ: [this.ins, Validators.required],

@@ -31,72 +31,6 @@
     </div>
   </div>
   <div class="content-section">
-    <!--nz-table
-      #ordersListTable
-      [nzData]="displayed"
-      style="
-        overflow-y: auto;
-        scroll-behavior: auto;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        height: 100%;
-      "
-    >
-      <thead>
-        <tr>
-          <th></th>
-          <th>Code</th>
-          <th>Libelle</th>
-          <th>Portée</th>
-          <th>Montant</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody style="scroll-behavior: auto; overflow: hidden">
-        <ng-container *ngFor="let item of ordersListTable.data; let i = index">
-          <tr>
-            <td
-              [nzShowExpand]="item.porte === 'specifique'"
-              [nzExpand]="item.expand"
-              (nzExpandChange)="onExpandChange(item, $event)"
-            ></td>
-            <td>{{ item.frais.codeFrais }}</td>
-            <td>{{ item.frais.libelle }}</td>
-            <td>
-              <nz-tag [nzColor]="item.porte === 'standard' ? 'blue' : 'orange'">
-                {{ item.portee === "standard" ? "Standard" : "Spécifique" }}
-              </nz-tag>
-            </td>
-            <td>
-              {{
-                item.portee === "standard"
-                  ? (item.montant | currency: "XOF")
-                  : "—"
-              }}
-            </td>
-            <td>{{ item.frais.montant }}</td>
-            <td class="text-md-right"></td>
-          </tr>
-          <tr [nzExpand]="item.expand">
-            <nz-table #innerTable [nzData]="item.fraisClasses ?? []" [nzLoading]="item.expand && !item.fraisClasses">
-              <thead>
-                <th>Classe</th>
-                <th>Montant</th>
-                <th>Actions</th>
-              </thead>
-              <tbody>
-                <tr *ngFor="let line of innerTable.data">
-                  <td>{{line.classe.libClasse}} </td>
-                  <td>{{line.montant}} </td>
-                </tr>
-              </tbody>
-            </nz-table>
-          </tr>
-          </ng-container
-        ><!--/tr> *ngFor="let item of .data;  let i=index"->
-      </tbody>
-    </nz-table-->
     <nz-table #basicTable [nzData]="displayed" [nzShowPagination]="true">
       <thead>
         <tr>
@@ -140,7 +74,7 @@
                 nz-tooltip
                 nzTooltipTitle="Modifier"
                 (click)="addChild(data)"
-                *ngIf="data.portee != 'STANDARD'"
+                *ngIf="data.frais.portee != 'STANDARD'"
               >
                 <i nz-icon nzType="plus" theme="outline"></i>
               </button>
@@ -151,7 +85,7 @@
                 nzShape="circle"
                 nz-tooltip
                 nzTooltipTitle="Modifier"
-                (click)="edit(data)"
+                (click)="edit(data.frais)"
               >
                 <i nz-icon nzType="edit" theme="outline"></i>
               </button>
@@ -162,20 +96,19 @@
                 nzShape="circle"
                 nz-tooltip
                 nzTooltipTitle="Supprimer"
-                (click)="confirmDeleting(data)"
+                (click)="confirmDeleting(data.frais)"
               >
                 <i nz-icon nzType="delete" theme="outline"></i>
               </button>
             </td>
-
-
+          </tr>
           <tr [nzExpand]="data.expanded" *ngIf="data.expanded">
             <nz-table
               #innerTable
               nzSize="small"
-              [nzData]="data.fraisClasses ?? []"
+              [nzData]="data.fraisClasses"
               [nzShowPagination]="false"
-              [nzLoading]="data.expand && !data.fraisClasses"
+              [nzLoading]="data.expanded && !data.fraisClasses"
             >
               <thead>
                 <tr>
@@ -187,7 +120,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let fc of innerTable.data">
+                <tr *ngFor="let fc of innerTable.data; let ind= index">
                   <td>{{ fc.classe.codeClasse }}</td>
                   <td>{{ fc.classe.libClasse }}</td>
                   <td>{{ fc.classe.niveau.ordre }}</td>
@@ -200,21 +133,10 @@
                 nzShape="circle"
                 nz-tooltip
                 nzTooltipTitle="Modifier"
-                (click)="addChild(data)"
-                *ngIf="data.portee != 'STANDARD'"
+                (click)="editChild(fc)"
+                *ngIf="data.frais.portee != 'STANDARD'"
               >
-                <i nz-icon nzType="plus" theme="outline"></i>
-              </button>
-              <button
-                class="m-r-5"
-                nz-button
-                nzType="default"
-                nzShape="circle"
-                nz-tooltip
-                nzTooltipTitle="Modifier"
-                (click)="edit(data)"
-              >
-                <i nz-icon nzType="edit" theme="outline"></i>
+                <i nz-icon nzType="edit" theme="fill"></i>
               </button>
               <button
                 class="m-r-5"
@@ -223,9 +145,9 @@
                 nzShape="circle"
                 nz-tooltip
                 nzTooltipTitle="Supprimer"
-                (click)="confirmDeleting(data)"
+                (click)="confirmDeletFraisClasse(fc, ind)"
               >
-                <i nz-icon nzType="delete" theme="outline"></i>
+                <i nz-icon nzType="delete" theme="fill"></i>
               </button>
             </td>
                 </tr>

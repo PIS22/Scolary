@@ -100,7 +100,7 @@ export class ClasseFormComponent implements OnInit {
       id: [this.valueIn ? this.valueIn.id : null],
       code: [this.valueIn ? this.valueIn.codeClasse : null],
       libe: [this.valueIn ? this.valueIn.libClasse : null],
-      niv: [this.valueIn ? this.valueIn.niveau.id : 0],
+      niv: [this.valueIn ? this.valueIn.niveau?.id : 0],
       cap: [this.valueIn ? this.valueIn.capacite : 0],
     });
   }

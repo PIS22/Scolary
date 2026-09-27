@@ -47,9 +47,11 @@ export class EnseignantFormComponent implements OnInit {
     private service: EnseignantService,
     private mod: NzDrawerRef,
     private cont: ContexteService,
-  ) {}
+  ) { }
+  
   ngOnInit(): void {
     this.initForm();
+    this.dataForm.getError
   }
 
   close(valueOut: Enseignant | null) {

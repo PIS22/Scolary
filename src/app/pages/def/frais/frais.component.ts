@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, input, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
@@ -20,33 +20,34 @@ import { Niveau } from '../../param/niveau/niveau.component';
 import { Classe } from '../classe/classe.component';
 import { FraisClassFormComponent } from './frais-class-form/frais-class-form.component';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { FraisClasseComponent } from './frais-classe/frais-classe.component';
 
-export interface Frais{
+export interface Frais {
   id: number;
   codeFrais: string;
   libelle: string;
   portee: string;
-  facultatif: boolean;
+  obligatoire: boolean;
   montant: number;
   typeFrais: TypeFrais;
   etablissement: Site;
   anneeScolaire: Annee;
 }
 
-export interface FraisClasse{
+export interface FraisClasse {
   id: number;
   montant: number;
   frais: Frais;
   classe: Classe;
 }
 
-interface fraisRow{
+interface fraisRow {
   expanded: boolean;
   frais: Frais;
   fraisClasses: FraisClasse[];
 }
 
-export interface Tranche{
+export interface Tranche {
   id: number;
   numTranche: string;
   libtranche: string;
@@ -59,30 +60,29 @@ export interface Tranche{
 @Component({
   selector: 'app-frais',
   imports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
-      NzIconModule,
-      NzCardModule,
-      NzInputModule,
-      NzTableModule,
-      NzButtonModule,
-      NzToolTipModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzIconModule,
+    NzCardModule,
+    NzInputModule,
+    NzTableModule,
+    NzButtonModule,
+    NzToolTipModule,
     NzModalModule,
     NzTagModule,
     NzDrawerModule,
   ],
   templateUrl: './frais.component.html',
-  styleUrl: './frais.component.scss'
+  styleUrl: './frais.component.scss',
 })
 export class FraisComponent implements OnInit {
-
   searchInput: string = '';
-  datas: fraisRow[]=[];
-  children:any;
-  displayed: any;
+  datas: fraisRow[] = [];
+  children: any;
+  displayed: fraisRow[] = [];
   @Input() frais: fraisRow[] = [];
-det: boolean =false;
+  det: boolean = false;
 
   constructor(
     private service: FraisService,
@@ -94,7 +94,9 @@ det: boolean =false;
 
   ngOnInit(): void {
     this.service.getFraisList().subscribe((res) => {
-      this.datas = res.map(d=>{return {expanded: false, frais: d, fraisClasses:[]}});
+      this.datas = res.map((d) => {
+        return { expanded: false, frais: d, fraisClasses: [] };
+      });
       this.displayed = this.datas;
     });
   }
@@ -116,8 +118,9 @@ det: boolean =false;
         },
       })
       .afterClose.subscribe((data) => {
-        if (data.id) {
-          this.datas.push(data);
+        if (data) {
+          console.log(data);
+          this.datas.push({ expanded: false, frais: data, fraisClasses: [] });
           this.displayed = [...this.datas];
         }
       });
@@ -135,7 +138,7 @@ det: boolean =false;
   }
 
   edit(_t52: Frais) {
-    let ind = this.datas.length+2//this.datas.findIndex((d) => d.id == _t52.id);
+    let ind = this.datas.length + 2; //this.datas.findIndex((d) => d.id == _t52.id);
     this.drawer
       .create<FraisFormComponent, { valueIn: Frais }>({
         nzTitle: 'Modifier le frais',
@@ -158,44 +161,76 @@ det: boolean =false;
     this.modal.confirm({
       nzTitle: 'Confirmation de suppression',
       nzContent:
-        '<i>Etes-vous sûr de vouloir supprimer les ' + _t72.libelle + ' pour le compte de  l\'année ' + _t72.anneeScolaire.code+ '?</i>',
+        '<i>Etes-vous sûr de vouloir supprimer les ' +
+        _t72.libelle +
+        " pour le compte de  l'année " +
+        _t72.anneeScolaire.code +
+        '?</i>',
       nzCancelText: 'Non',
       nzOnCancel: () => this.msg.info('Action annulée'),
       nzOkText: 'Oui',
       nzOnOk: () => this.delete(_t72),
     });
   }
+
   delete(_t72: Frais) {
-    this.service.delete(_t72.id).subscribe(
-      (res) => {
-        if (res){
-          /*this.datas.splice(this.datas.findIndex(d => d.id == _t72.id), 1);
+    this.service.delete(_t72.id).subscribe((res) => {
+      if (res) {
+        /*this.datas.splice(this.datas.findIndex(d => d.id == _t72.id), 1);
         this.displayed.splice(this.displayed.findIndex(d=>d.id==_t72.id), 1);*/
-          this.displayed = [...this.displayed]
+        this.displayed = [...this.displayed];
+      }
+    });
+  }
+
+  confirmDeletFraisClasse(_t72: FraisClasse, index: number) {
+    console.log('Index n° ' + index);
+
+    this.modal.confirm({
+      nzTitle: 'Confirmation de suppression',
+      nzContent:
+        '<i>Etes-vous sûr de vouloir supprimer les ' +
+        _t72.frais.libelle +
+        ' de ' +
+        _t72.classe.codeClasse +
+        //" pour le compte de  l'année " +
+        //_t72.frais.anneeScolaire.code +
+        '?</i>',
+      nzCancelText: 'Non',
+      nzOnCancel: () => this.msg.info('Action annulée'),
+      nzOkText: 'Oui',
+      nzOnOk: () => this.deleteFraisClasse(_t72, index),
+    });
+  }
+
+  deleteFraisClasse(_t72: FraisClasse, index: number) {
+    this.service.delete(_t72.id).subscribe((res) => {
+      if (res) {
+        if (res) {
+          let ind = this.datas.findIndex((f) => f.frais.id == _t72.frais.id);
+          this.datas[ind].fraisClasses.splice(index, 1);
+          this.datas[ind].fraisClasses = [...this.datas[ind].fraisClasses]
+          console.log(this.datas);
+          this.displayed = [...this.datas];
+          console.log(this.displayed);
         }
       }
-    );
+    });
   }
 
   onExpandChange(f: fraisRow) {
-    f.expanded = !f.expanded
-    console.log(f.expanded+' '+f.frais.portee);
-
-    if(f.expanded){
-      this.service.getListByFrais(f.frais.id).subscribe(
-        (list) => {
-          f.fraisClasses = list;
-          console.log(f.fraisClasses);
-        })
+    f.expanded = !f.expanded;
+    if (f.expanded) {
+      this.service.getListByFrais(f.frais.id).subscribe((list) => {
+        f.fraisClasses = list;
+      });
     }
   }
 
   addChild(_t58: any) {
-    console.log(_t58);
-
     this.drawer
       .create<FraisClassFormComponent, { valueIn: Frais }>({
-        nzTitle: 'Nouveau frais classe',
+        nzTitle: 'Renseigner les ' + _t58.libelle + ' par classe classe',
         nzContent: FraisClassFormComponent,
         nzWidth: 500,
         nzData: {
@@ -203,12 +238,36 @@ det: boolean =false;
         },
       })
       .afterClose.subscribe((data) => {
-        /*if (data) {
-          this.datas[ind] = data;
-          this.displayed[ind] = data;
-          this.displayed = [...this.displayed];
-        }*/
-      });
-}
+        if (data) {
+          data.forEach((elt: any) => {
+          _t58.fraisClasses.push(elt);
 
+          });
+          _t58.fraisClasses = [..._t58.fraisClasses]
+        }
+      });
+  }
+
+  editChild(_t66: FraisClasse) {
+    console.log(_t66);
+    this.drawer
+      .create<FraisClasseComponent, { valueIn: FraisClasse }>({
+        nzTitle:
+          'Modifier ' + _t66.frais.libelle + ' pour ' + _t66.classe.codeClasse,
+        nzContent: FraisClasseComponent,
+        nzWidth: 500,
+        nzData: {
+          valueIn: _t66,
+        },
+      })
+      .afterClose.subscribe((data) => {
+        if (data) {
+          this.onExpandChange({
+            expanded: true,
+            frais: data.frais,
+            fraisClasses: [],
+          });
+        }
+      });
+  }
 }

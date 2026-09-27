@@ -11,44 +11,46 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzDrawerModule, NzDrawerRef } from 'ng-zorro-antd/drawer';
 
 interface FraisSelect {
   frais: Frais;
-  Classe: Classe;
   selected: boolean;
 }
 
 @Component({
   selector: 'app-frais-select',
-  imports: [CommonModule, NzTableModule, NzInputModule, NzCardModule, NzCheckboxModule, FormsModule, NzSwitchModule],
+  imports: [CommonModule, NzTableModule, NzInputModule, NzCardModule, NzCheckboxModule, FormsModule, NzSwitchModule, NzDrawerModule],
   templateUrl: './frais-select.component.html',
   styleUrl: './frais-select.component.scss',
 })
 export class FraisSelectComponent implements OnInit {
-valider() {
+adjustList() {
 throw new Error('Method not implemented.');
 }
-  displayed!: any[];
+  valider() {
+    let res = this.frais.filter(f => f.selected).map(f => { return f.frais });
+    this.dref.close(res);
+}
+  displayed: FraisSelect[]=[];
 search() {
-throw new Error('Method not implemented.');
 }
   @Input() inputData: any;
-  frais: any;
+  frais: FraisSelect[]=[]
 searchInput: any;
 
-  constructor(private service: CaisseService) { }
+  constructor(private service: CaisseService, private dref: NzDrawerRef) { }
 
   ngOnInit() {
-        console.log(this.inputData);
     this.service.getFraisForInscription(this.inputData).subscribe(
       (res) => {
-        this.frais = res.map(r => { return { frais: r } })
-        console.log(this.frais);
+        this.frais = res.map(r => { return { frais: r, selected: false } });
         this.displayed = [...this.frais];
-        console.log(this.displayed);
       }
     )
 
   }
-  public OnoK(){}
+
+
+
 }
