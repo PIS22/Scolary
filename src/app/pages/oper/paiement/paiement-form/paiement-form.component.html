@@ -1,13 +1,13 @@
 <div class="main-content">
-  <form [formGroup]="dataForm" nz-form method="post" (submit)="submit()">
+  <form [formGroup]="dataForm" nz-form (submit)="submit()">
     <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
-      <div class="gutterRow" nz-col [nzSpan]="13">
+      <div class="gutterRow" nz-col [nzSpan]="10">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzFor="cai" nzRequired
+          <nz-form-label [nzSpan]="5" nzFor="cai" nzRequired
             >Caisse</nz-form-label
           >
           <nz-form-control
-            [nzSpan]="18"
+            [nzSpan]="17"
             [nzOffset]="2"
             nzErrorTip="Veuillez sélectionner la caisse"
           >
@@ -26,22 +26,41 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div class="gutterRow" nz-col [nzSpan]="11">
+      <div class="gutterRow" nz-col [nzSpan]="7">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzFor="dat" nzRequired
+          <nz-form-label [nzSpan]="6" nzFor="dat" nzRequired
             >Date</nz-form-label
           >
           <nz-form-control
-            [nzSpan]="18"
+            [nzSpan]="16"
             [nzOffset]="2"
             nzErrorTip="Le date de paiement est obligatoire"
           >
             <nz-date-picker
-              nzFormat="dd/MM/yyyy hh:mm"
+              nzFormat="dd/MM/yyyy"
               nz-input
               formControlName="dat"
               nz-tooltip="Date de paiement"
             ></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="gutterRow" nz-col [nzSpan]="7">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="9" nzFor="tim" nzRequired
+            >Heure</nz-form-label
+          >
+          <nz-form-control
+            [nzSpan]="13"
+            [nzOffset]="2"
+            nzErrorTip="Le date de paiement est obligatoire"
+          >
+            <nz-time-picker
+              nzFormat="hh:mm"
+              nz-input
+              formControlName="tim"
+              nz-tooltip="Date de paiement"
+            ></nz-time-picker>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -90,22 +109,21 @@
     <div nz-row [nzGutter]="{ xs: 4, sm: 8, md: 16, lg: 32 }">
       <div class="gutterRow" nz-col [nzSpan]="13">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzFor="pay" nzRequired
-            >Payeur</nz-form-label
+          <nz-form-label [nzSpan]="4" nzFor="ref" nzRequired
+            >Réference</nz-form-label
           >
           <nz-form-control
             [nzSpan]="18"
             [nzOffset]="2"
-            nzErrorTip="Le libellé de la classe est obligatoire"
           >
-            <input nz-input formControlName="pay" nz-tooltip="Nom du payeur" />
+            <input nz-input formControlName="ref" nz-tooltip="Référence du paiement" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div class="gutterRow" nz-col [nzSpan]="11">
         <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzFor="dat" nzRequired
-            >Date</nz-form-label
+          <nz-form-label [nzSpan]="4" nzFor="dre" nzRequired
+            >Date réf.</nz-form-label
           >
           <nz-form-control
             [nzSpan]="18"
@@ -113,9 +131,9 @@
             nzErrorTip="Le date de paiement est obligatoire"
           >
             <nz-date-picker
-              nzFormat="dd/MM/yyyy hh:mm"
+              nzFormat="dd/MM/yyyy"
               nz-input
-              formControlName="dat"
+              formControlName="dre"
               nz-tooltip="Date de paiement"
             ></nz-date-picker>
           </nz-form-control>
@@ -137,7 +155,6 @@
           nzSelectOnTab="true"
           nzShowSearch="true"
           nzAllowClear="true"
-          (ngModelChange)="getFees(dataForm.value.ins)"
         >
           <nz-option
             *ngFor="let item of inscrits"
@@ -153,6 +170,13 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
+    <nz-form-item nzAlign="middle" nzJustify="center">
+      <nz-form-control>
+        <button nz-button [disabled]="!dataForm.value.ins" type="button" (click)="getFees(dataForm.value.ins)">
+          Sélectionner les frais à payer
+        </button>
+        </nz-form-control>
+        </nz-form-item>
   <div class="content-section">
     <nz-table
       #ordersListTable
@@ -169,25 +193,22 @@
     >
       <thead>
         <tr>
+          <th>N° ordre</th>
           <th>Frais payé</th>
           <th>Montant payé</th>
         </tr>
       </thead>
       <tbody>
         <!--/tbody> style="scroll-behavior: auto; overflow: hidden;"-->
-        <tr *ngFor="let item of ordersListTable.data; let i = index">
-          <td>{{ i }}</td>
-          <td>{{ item.codeFrais }}</td>
-          <td>{{ item.libelle+' ('+item.montant+')' }}</td>
+        <tr *ngFor="let item of displayed; let i = index">
+          <td>{{ i+1 }}</td>
+          <td>{{ item.frais.libelle+' ('+item.frais.montant+')' }}</td>
           <td>
             <nz-input-group>
               <input
-                type="text"
-                placeholder="Portion de text recherché"
+                type="number"
                 nz-input
-                nz-tooltip="Critères de recherche"
-                [(ngModel)]="item.montant"
-
+                [(ngModel)]="item.prixUnitaire"  [ngModelOptions]="{standalone: true}"
               />
             </nz-input-group>
           </td>
@@ -200,7 +221,7 @@
         <button nz-button nzType="primary" [disabled]="dataForm.invalid">
           Valider
         </button>
-        <button nz-button (click)="close(null)">Annuler</button>
+        <button nz-button type="button" (click)="close(null)">Annuler</button>
       </nz-form-control>
     </nz-form-item>
   </form>

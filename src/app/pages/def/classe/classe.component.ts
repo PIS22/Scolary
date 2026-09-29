@@ -19,12 +19,14 @@ import { Niveau } from '../../param/niveau/niveau.component';
 import { ClasselComponent, Classement } from './classel/classel.component';
 import { EleveService } from '../../../../services/eleve.service';
 import { Inscription } from '../../inscription/inscription.component';
+import { ClassElEditorComponent } from './class-el-editor/class-el-editor.component';
 
 export interface AffectationEleve {
   id: number;
   inscription: Inscription;
   classe: Classe;
   dateAffectation: Date;
+  observation: string;
 }
 interface enClasse{
   expanded: boolean;
@@ -135,6 +137,7 @@ throw new Error('Method not implemented.');
             }
       });
   }
+
   search() {
     this.displayed = this.datas.filter((d) => {
       return (
@@ -200,9 +203,8 @@ throw new Error('Method not implemented.');
       }
     )
   }
-editAffectation(_t166: AffectationEleve) {
-throw new Error('Method not implemented.');
-}
+
+
 finirAffectation(_t166: AffectationEleve) {
 throw new Error('Method not implemented.');
 }
@@ -212,7 +214,21 @@ throw new Error('Method not implemented.');
       nzContent: ClasselComponent,
       nzData: { valueIn: _t56 },
       nzTitle: "Ajout d'élève à la classe " + _t56.codeClasse,
-      nzWidth: 900,
+      nzWidth: 1000,
+    }).afterClose.subscribe(
+      (data) => {
+        console.log(data);
+
+      }
+    )
+  }
+
+  editAffectation(_t56: AffectationEleve) {
+    this.drawer.create<ClassElEditorComponent, { valueIn: AffectationEleve }>({
+      nzContent: ClassElEditorComponent,
+      nzData: { valueIn: _t56 },
+      nzTitle: "Modifoer affectatiob d'élève ",
+      nzWidth: 500,
     }).afterClose.subscribe(
       (data) => {
         console.log(data);

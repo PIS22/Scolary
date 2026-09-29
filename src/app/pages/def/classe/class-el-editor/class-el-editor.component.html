@@ -1,0 +1,58 @@
+<nz-card
+  style="
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+  "
+>
+  <form action="post" nz-form [formGroup]="dataForm" (ngSubmit)="submit()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="2" for="ins">Elève</nz-form-label>
+      <nz-form-control
+        [nzSpan]="18"
+        [nzOffset]="2">
+        <input nz-input type="text" formControlName="ins"/>
+      </nz-form-control>
+      <!--nz-form-control
+        [nzSpan]="20"
+        [nzOffset]="2">
+        <input nz-input type="text" formControlName="ins" readonly="true"/>
+      </nz-form-control-->
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label  nzSpan="3" for="cla">Classe</nz-form-label>
+      <nz-form-control
+        [nzSpan]="18"
+        [nzOffset]="2">
+        <nz-select formControlName="cla" >
+          <nz-option [nzValue]="valueIn.classe.id" [nzLabel]="valueIn.classe.libClasse"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="8" for="dat">Date de classement</nz-form-label>
+      <nz-form-control
+        [nzSpan]="10"
+        [nzOffset]="6"
+        nzErrorTip="La date de naissance est obligatoire"
+      >
+        <nz-date-picker
+          formControlName="dat"
+          placeholder="Date de naissance"
+          nzFormat="dd/MM/YYYY"
+        ></nz-date-picker>
+      </nz-form-control>
+      <!--nz-date-picker
+          formControlName="dat"
+          nzFormat="dd/MM/yyyy"
+          nzAutoFocus="true"
+        ></nz-date-picker-->
+    </nz-form-item>
+    <nz-form-item>
+      <button nz-button nzSpaceItem nzType="primary">Valider</button>
+      <button nz-button nzType="primary">Annuler</button>
+    </nz-form-item>
+  </form>
+</nz-card>

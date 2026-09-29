@@ -29,11 +29,12 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { Site } from '../etablissement/etablissement.component';
 import { ClasseService } from '../../../services/classe.service';
 import { Niveau } from '../param/niveau/niveau.component';
-import { NzTableComponent } from 'ng-zorro-antd/table';
+import { NzTableComponent, NzTableModule } from 'ng-zorro-antd/table';
 import { Annee } from '../def/annee/annee.component';
 import { NzDragService } from 'ng-zorro-antd/core/services';
 import { InscriptionFormComponent } from './inscription-form/inscription-form.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 export interface Inscription {
   id: number;
@@ -56,14 +57,18 @@ export enum Statuts {
 @Component({
   selector: 'app-inscription',
   imports: [
-    CommonModule,
-    NzTableComponent,
-    NzCardComponent,
-    NzInputModule,
-    FormsModule,
-    NzDrawerModule,
-    DatePipe,
-    NzIconModule,
+      CommonModule,
+      FormsModule,
+      ReactiveFormsModule,
+      NzInputModule,
+      NzIconModule,
+      NzCardModule,
+      NzInputModule,
+      NzTableModule,
+      NzButtonModule,
+      NzToolTipModule,
+      NzModalModule,
+      NzDrawerModule,
   ],
   templateUrl: './inscription.component.html',
   styleUrl: './inscription.component.scss',
@@ -74,6 +79,8 @@ export class InscriptionComponent implements OnInit {
   ins = true;
   datas: Inscription[] = [];
   displayed: Inscription[] = [];
+  defaultPageSize = 10
+  pageSizeOption=[10,20,50]
 
   constructor(
     private fb: FormBuilder,
@@ -86,17 +93,16 @@ export class InscriptionComponent implements OnInit {
   ngOnInit(): void {
     if (this.cont.etsId && this.cont.anneeId)
       this.service
-        .getListSubscriptionByEtabAnnee(this.cont.etsId, this.cont.anneeId)
+        .getPagedSubscription(this.cont.anneeId, this.cont.etsId,0,this.defaultPageSize)
         .subscribe((res) => {
-          console.log(res)
-          this.datas = res;
+          this.datas = res.content;
           this.displayed = this.datas;
         });
   }
 
   search() {
     if(this.searchInput){
-      this.displayed = this.datas.filter(d => 
+      this.displayed = this.datas.filter(d =>
         d.classeDemandee.toLowerCase().includes(this.searchInput.toLowerCase()) ||
           d.eleve.nom.toLowerCase().includes(this.searchInput.toLowerCase()) ||
           d.observation?.toLocaleLowerCase().includes(this.searchInput.toLowerCase())

@@ -16,6 +16,7 @@ import { PaiementFormComponent } from './paiement-form/paiement-form.component';
 import { Caisse } from '../../def/caisse/caisse.component';
 import { Inscription } from '../../inscription/inscription.component';
 import { ModeReglement } from '../../man/mode-reg/mode-reg.component';
+import { Frais } from '../../def/frais/frais.component';
 
 export interface Paiement {
   id: number;
@@ -30,14 +31,21 @@ export interface Paiement {
   modeReglement: ModeReglement;
   caisse: Caisse;
   inscription: Inscription;
-
+  details: Detail[]
 }
 
 export interface Detail {
-  id: number;
-  montant: number;
-  frais: any;
+  id: number|null;
+  quantite: number;
+  prixUnitaire: number;
+  frais: Frais;
 }
+
+interface Transaction{
+  expanded: boolean;
+  paiement: Paiement;
+}
+
 @Component({
   selector: 'app-paiement',
   imports: [
@@ -58,9 +66,12 @@ export interface Detail {
   styleUrl: './paiement.component.scss',
 })
 export class PaiementComponent implements OnInit {
+showDetail(arg0: Paiement) {
+throw new Error('Method not implemented.');
+}
   searchInput: string = '';
-  datas: Paiement[] = [];
-  displayed: Paiement[] = [];
+  datas: Transaction[] = [];
+  displayed: Transaction[] = [];
 
   constructor(
     private service: CaisseService,
@@ -72,7 +83,7 @@ export class PaiementComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getListPaiement().subscribe((res) => {
-      this.datas = res;
+      this.datas = res.map(r => { return { expanded: false, paiement: r }; });
       this.displayed = this.datas;
       console.log(this.displayed);
     });
@@ -83,7 +94,7 @@ export class PaiementComponent implements OnInit {
       .create<PaiementFormComponent, { valueIn: any }>({
         nzTitle: 'Créer un paiement',
         nzContent: PaiementFormComponent,
-        nzWidth: 700,
+        nzWidth: 750,
         nzData: {
           valueIn: {
             id: null,
@@ -111,7 +122,7 @@ export class PaiementComponent implements OnInit {
   }
 
   edit(_t52: Paiement) {
-    let ind = this.datas.findIndex((d) => d.id == _t52.id);
+    let ind = this.datas.findIndex((d) => d.paiement.id == _t52.id);
     this.drawer
       .create<PaiementFormComponent, { valueIn: Paiement }>({
         nzTitle: 'Modifier le paiement',
@@ -147,7 +158,7 @@ export class PaiementComponent implements OnInit {
       console.log(res);
       if (res)
         this.datas.splice(
-          this.datas.findIndex((d) => d.id == _t72.id),
+          this.datas.findIndex((d) => d.paiement.id == _t72.id),
           1,
         );
       this.displayed = [...this.datas];

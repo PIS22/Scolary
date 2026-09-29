@@ -230,12 +230,13 @@ export class FraisComponent implements OnInit {
   addChild(_t58: any) {
     this.drawer
       .create<FraisClassFormComponent, { valueIn: Frais }>({
-        nzTitle: 'Renseigner les ' + _t58.libelle + ' par classe classe',
+        nzTitle: 'Renseigner les ' + _t58.libelle + ' par classe',
         nzContent: FraisClassFormComponent,
         nzWidth: 500,
         nzData: {
-          valueIn: _t58.frais,
+          valueIn: _t58,
         },
+        nzPlacement:'bottom'
       })
       .afterClose.subscribe((data) => {
         if (data) {

@@ -7,17 +7,25 @@
   column-gap: 2px;
 }
 .section-header {
-  .search-data{
-  width: 65%;
+  .search-data {
+    width: 65%;
+  }
+
+  .button {
+    width: 30%;
+    button {
+      width: 100%;
+    }
+  }
 }
-.button{
-  width: 30%;
-  button{
+
+.content-section {
+  margin-top: 2em;
+  nz-table {
     width: 100%;
   }
 }
-}
-
-.sites-card nz-table {
+.sites-card {
   width: 100%;
 }
+

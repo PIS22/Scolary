@@ -133,22 +133,22 @@
                 <thead>
                   <tr>
                     <th>Elève</th>
-                    <th>Sexe</th>
                     <th>Date de naissance</th>
                     <th>Sexe</th>
                     <th>Contact</th>
                     <th>Educmaster</th>
+                    <th>Observation</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                   <tbody>
                     <tr *ngFor="let line of classes.data">
                       <td>{{line.inscription.eleve.nom}}</td>
-                      <td>{{line.inscription.eleve.sexe}}</td>
                       <td>{{line.inscription.eleve.dateNaissance|date:'dd/MM/yyyy'}}</td>
+                      <td>{{line.inscription.eleve.sexe}}</td>
                       <td>{{line.inscription.eleve.telPere? line.inscription.eleve.telPere:  line.inscription.eleve.telMere+'(M)'}}</td>
-                      <td>{{line.inscription.eleve.lieuNaissance}}</td>
-                      <td>{{line.inscription.eleve.lieuNaissance}}</td>
+                      <td>{{line.inscription.eleve.educmaster}}</td>
+                      <td>{{line.observation}}</td>
                       <td>
               <button
                 class="m-r-5"

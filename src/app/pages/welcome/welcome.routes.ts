@@ -37,6 +37,7 @@ export const WELCOME_ROUTES: Routes = [
           { path: 'annee_scolaire', component: AnneeComponent },
           { path: 'classe', component: ClasseComponent },
           { path: 'diplome', component: DiplomeComponent },
+      { path: 'inscription', component: InscriptionComponent },
           { path: 'eleve', component: EleveComponent },
           { path: 'enseignant', component: EnseignantComponent },
           { path: 'exercice', component: ExerciceComponent },

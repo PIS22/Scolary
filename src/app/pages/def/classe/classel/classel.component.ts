@@ -4,7 +4,7 @@ import { Inscription } from '../../../inscription/inscription.component';
 import { EleveService } from '../../../../../services/eleve.service';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
@@ -12,9 +12,13 @@ import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDrawerModule, NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { Detail } from '../../../oper/paiement/paiement.component';
 
 export interface Classement {
   inscription: Inscription;
+  observation: string;
   select: boolean;
 }
 @Component({
@@ -22,15 +26,17 @@ export interface Classement {
   imports: [
     CommonModule,
     FormsModule,
-    DatePipe,
+    NzFormModule,
     NzCardModule,
     NzSwitchModule,
     NzInputModule,
+    NzDatePickerModule,
     NzTableModule,
     NzMessageModule,
     NzDrawerModule,
     NzButtonModule,
-  ],
+    ReactiveFormsModule
+],
   templateUrl: './classel.component.html',
   styleUrl: './classel.component.scss',
 })
@@ -40,13 +46,16 @@ export class ClasselComponent implements OnInit {
   @Input() valueIn!: Classe;
   nonclasse: Classement[] = [];
   searchInput: any;
+  dataForm!: FormGroup;
 
   constructor(
     private service: EleveService,
     private drawer: NzDrawerRef,
-    private msg: NzMessageService,
-  ) {}
+    private msg: NzMessageService, private fb: FormBuilder
+  ) { }
+  
   ngOnInit(): void {
+    this.init();
     if (this.valueIn) {
       this.service
         .getListSubscriptionByEtabAnneeNiveau(
@@ -56,27 +65,35 @@ export class ClasselComponent implements OnInit {
         )
         .subscribe((resp) => {
           this.nonclasse = resp.map((i) => {
-            return { inscription: i, select: false };
+            return { inscription: i, observation: '', select: false };
           });
           this.displayed = this.nonclasse;
         });
     }
   }
 
+  init(){
+    this.dataForm = this.fb.group({
+      dat: [new Date(), Validators.required],
+      val: ['']
+    })
+  }
+
   dispatch() {
+    console.log(this.dataForm.value.Detail+' '+this.nonclasse[0].observation);
+    
     let body = this.nonclasse
       .filter((l) => l.select)
       .map((l) => {
         return {
-          dateAffectation: new Date(),
+          dateAffectation: this.dataForm.value.dat,
           dateFinAffectation: null,
-          observation: null,
+          observation: l.observation,
           idInscription: l.inscription.id,
           idClasse: this.valueIn.id,
           courante: true,
         };
       });
-    console.log(body);
     this.service.createEleveClasseList(body).subscribe(
       (res) => {
         if (res.length > 0) this.drawer.close(res);
@@ -92,4 +109,5 @@ export class ClasselComponent implements OnInit {
   search() {
     console.log(this.searchInput);
   }
+
 }

@@ -26,7 +26,6 @@ interface FraisSelect {
 })
 export class FraisSelectComponent implements OnInit {
 adjustList() {
-throw new Error('Method not implemented.');
 }
   valider() {
     let res = this.frais.filter(f => f.selected).map(f => { return f.frais });

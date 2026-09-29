@@ -62,8 +62,8 @@
             </td>
         <td>{{ data.frais.codeFrais }}</td>
             <td>{{ data.frais.libelle }}</td>
-            <td><nz-tag [nzColor]="data.frais.portee === 'STANDARD' ? 'blue' : 'orange'">{{ data.frais.portee === 'STANDARD' ? 'STANDARD' : 'SPECIFIQUE'}}</nz-tag></td>
-            <td>{{data.frais.portee === 'STANDARD'? (data.frais.montant | currency: "XOF"): "—"}}</td>
+            <td><nz-tag [nzColor]="data.frais.portee === 'GLOBAL' ? 'blue' : 'orange'">{{ data.frais.portee === 'GLOBAL' ? 'GLOBAL' : 'SPECIFIQUE'}}</nz-tag></td>
+            <td>{{data.frais.portee === 'GLOBAL'? (data.frais.montant | currency: "XOF"): "—"}}</td>
             <td>{{ data.frais.typeFrais.libTypeFrais }}</td>
             <td>
               <button
@@ -73,8 +73,8 @@
                 nzShape="circle"
                 nz-tooltip
                 nzTooltipTitle="Modifier"
-                (click)="addChild(data)"
-                *ngIf="data.frais.portee != 'STANDARD'"
+                (click)="addChild(data.frais)"
+                *ngIf="data.frais.portee != 'GLOBAL'"
               >
                 <i nz-icon nzType="plus" theme="outline"></i>
               </button>
@@ -134,7 +134,7 @@
                 nz-tooltip
                 nzTooltipTitle="Modifier"
                 (click)="editChild(fc)"
-                *ngIf="data.frais.portee != 'STANDARD'"
+                *ngIf="data.frais.portee != 'GLOBAL'"
               >
                 <i nz-icon nzType="edit" theme="fill"></i>
               </button>

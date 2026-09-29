@@ -1,5 +1,7 @@
-1- Pour affecter les éleve à une classe, c'est une liste de EleveClass Dto qui sra envoyé
-2- Revoir la contrainte sur l'unicité du numéro npi de l'enseignant pendant la mise à jour
-3- Permettre la création d'une liste de FraisClasse (Mettre à disposition une URL qui pour chaque élément d'une liste de FraisClasseRequestDto et
-crée un FraisClassepuis renvoie la liste des FraisClasses créés)
-4- Revoir la contrainte sur l'unicité du idFrais et idClase lord de l,edition defraisClasse
+1- Il n'y a pas d'url pour envoyer le detail d'un paiement
+2- Dans la requete de la fonction getAffectationElevePageByIdClasse() il faut par défaut ajouter la condition courant=true. Et quand on voudra générer la liste
+dynamiquement en considérant que les affectations ont une date de fin et une date de début, il faut penser à une autre liste basée sur les paramètres de temps.
+3- Je pense que tant qu'on est dans la gestion scolaire, aucune école qui se respecte ne devrait avoir une plétor d'éleves dans une classe.
+Ainsi, la requête getAffectationElevePageByIdClasse() n'a pa besoin d'être paginée.
+4- Besoin d'une url qui envoie les inscris non classés par niveau
+5- Besoin d'une url qui envoie pour une année, un établissement et un niveau donnés les classes

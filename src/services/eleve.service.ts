@@ -51,7 +51,7 @@ export class EleveService {
   }
 
   createEleveClasseList(body: any): Observable<AffectationEleve[]>{
-    return this.http.post<AffectationEleve[]>(this.source + 'affectation/eleve', body);
+    return this.http.post<AffectationEleve[]>(this.source + 'listeAffectationEleve', body);
   }
 
   editEleveClasse(body: any): Observable<AffectationEleve>{
@@ -60,6 +60,11 @@ export class EleveService {
 
   deleteEleveClasse(id: number):Observable<boolean>{
     return this.http.delete<boolean>(this.source + 'eleve/'+id);
+  }
+
+  getPagedSubscription(idAnnee: number, idEts: number, pageNo: number, pageSize: number): Observable<any>{
+    let params = new HttpParams().set('pageNo', pageNo).set('pageSize', pageSize);
+    return this.http.get<Inscription[]>(this.source + 'inscriptionPageByEtsAnnee/'+idEts+'/'+idAnnee,{params});
   }
 
   getListSubscription(): Observable<Inscription[]>{

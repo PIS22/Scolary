@@ -27,30 +27,35 @@
   flex: 1; height: 100%; ">
       <thead>
           <tr>
+              <th></th>
               <th>Date</th>
               <th>Payeur</th>
               <th>montant</th>
               <th>Reçu</th>
-              <th>Réfference</th>
+              <th>Référence</th>
               <th>Elève</th>
               <th>Actions</th>
           </tr>
       </thead>
       <tbody style="scroll-behavior: auto; overflow: hidden;">
           <tr *ngFor="let item of ordersListTable.data;  let i=index">
-              <td>{{item.datePaiement}}</td>
-              <td>{{item.nomPayeur}}</td>
-              <td>{{item.montantTotal}}</td>
-              <td>{{item.numRecu}}</td>
-              <td>{{item.modeReglement.libMode+" "+item.numCheque}}</td>
-              <td>{{item.inscription.eleve.nom}}</td>
+              <td><button nz-button (click)="showDetail(item.paiement)">
+                <span nz-icon nzType="plus" *ngIf="!item.expanded" nzTheme="outline"></span>
+                <span nz-icon nzType="minus" *ngIf="item.expanded" nzTheme="outline"></span>
+              </button></td>
+              <td>{{item.paiement.datePaiement}}</td>
+              <td>{{item.paiement.nomPayeur}}</td>
+              <td>{{item.paiement.montantTotal}}</td>
+              <td>{{item.paiement.numRecu}}</td>
+              <td>{{item.paiement.modeReglement.libMode+" "+item.paiement.numCheque}}</td>
+              <td>{{item.paiement.inscription.eleve.nom}}</td>
               <td class="text-md-right">
                   <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Modifier"
-                  (click)="edit(item)">
+                  (click)="edit(item.paiement)">
                       <i nz-icon nzType="edit" theme="outline"></i>
                   </button>
                   <button class="m-r-5" nz-button nzType="default" nzShape="circle" nz-tooltip nzTooltipTitle="Supprimer"
-                  (click)="confirmDeleting(item)">
+                  (click)="confirmDeleting(item.paiement)">
                       <i nz-icon nzType="delete" theme="outline"></i>
                   </button>
               </td>

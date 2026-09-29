@@ -39,9 +39,13 @@ export class FraisClassFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.valueIn);
+
     this.clas
       .getForEtab(this.cont.etsId, this.cont.anneeId)
       .subscribe((data) => {
+        console.log(data);
+
         if (data.length > 0) {
           this.classes = data;
           this.service.getListByFrais(this.valueIn.id).subscribe((resp) => {
